@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name="TB_GNT_TAG")
-@SequenceGenerator(name = "item_tag", sequenceName = "SQ_TB_GNT_TAG", allocationSize = 1)
+@SequenceGenerator(name = "item_tag", sequenceName = "SQ_T_GNT_TAG", allocationSize = 1)
 public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_tag")
