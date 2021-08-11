@@ -3,7 +3,13 @@ package br.com.fiap.oneid.model;
 import java.util.Date;
 
 import javax.persistence.*;
-import lombok.*;
+
+import org.springframework.data.annotation.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
