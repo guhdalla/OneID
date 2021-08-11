@@ -1,0 +1,35 @@
+package br.com.fiap.oneid.model;
+
+import java.util.Date;
+
+import javax.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "T_GNT_ATIVIDADE")
+@SequenceGenerator(allocationSize = 1, name = "atividade", sequenceName = "SQ_T_GNT_ATIVIDADE")
+public class Atividade {
+
+	@Id
+	@Column(name = "id_atividade")
+	@GeneratedValue(generator = "atividade", strategy = GenerationType.SEQUENCE)
+	private Long idAtividade;
+
+	@Column(name = "dt_check", nullable = false)
+	private Date dtCheck;
+
+	@Column(name = "nr_check", nullable = false)
+	private int nrCheck;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private UsuarioFisico usuarioFisico;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_empresa", nullable = false)
+    private UsuarioJuridico usuarioJuridico;
+}
