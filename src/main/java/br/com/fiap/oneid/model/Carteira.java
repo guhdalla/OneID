@@ -16,7 +16,7 @@ public class Carteira {
 	@Id
 	@Column(name="id_carteira")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carteira")
-	private Long idEndereco;
+	private Long id;
 	
 	@Column(name="vl_saldo", length = 10, nullable = false)
 	private float saldo;
