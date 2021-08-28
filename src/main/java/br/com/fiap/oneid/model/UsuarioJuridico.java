@@ -26,7 +26,8 @@ public class UsuarioJuridico extends Usuario {
 	@Column(name = "bool_entracedID", nullable = false)
 	private boolean entracedID;
 
-	@Column(name = "ds_cnpj", length = 14, nullable = false)
+	// Modificação para 20 , nao necessita de máscara. 
+	@Column(name = "ds_cnpj", length = 23, nullable = false)
 	private String cnpj;
 
 	@Column(name = "nm_razao_social", length = 15, nullable = false)
@@ -39,7 +40,8 @@ public class UsuarioJuridico extends Usuario {
 	@JoinColumn(name = "id_carteira", nullable = false)
 	private Carteira carteira;
 
-	@OneToOne
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
