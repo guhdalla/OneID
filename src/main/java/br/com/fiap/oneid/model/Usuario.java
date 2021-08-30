@@ -4,6 +4,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.*;
 
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -29,6 +34,8 @@ public class Usuario {
 	@Column(name = "nm_ultimo_nome", length = 50, nullable = false)
 	private String sobrenome;
 
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "dt_nascimento", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Calendar dataNascimento;

@@ -1,0 +1,15 @@
+2021-08-27 21:01:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DS_CEP VARCHAR(7)": "'03956-010' (9)"; SQL statement:
+insert into t_gnt_endereco (ds_bairro, ds_cep, ds_cidade, ds_complemento, nr_numero, ds_rua, ds_uf, id_endereco) values (?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
+2021-08-27 21:02:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DS_CEP VARCHAR(7)": "'03956010' (8)"; SQL statement:
+insert into t_gnt_endereco (ds_bairro, ds_cep, ds_cidade, ds_complemento, nr_numero, ds_rua, ds_uf, id_endereco) values (?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
+2021-08-27 21:02:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DS_CEP VARCHAR(7)": "'03956010' (8)"; SQL statement:
+insert into t_gnt_endereco (ds_bairro, ds_cep, ds_cidade, ds_complemento, nr_numero, ds_rua, ds_uf, id_endereco) values (?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
+2021-08-27 21:04:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DS_CNPJ VARCHAR(14)": "'XX.XXX.XXX/0001-XX' (18)"; SQL statement:
+insert into t_gnt_usuario_juridico (bool_authenticateid, id_carteira, ds_cnpj, id_endereco, bool_entracedid, nm_fantasia, nm_razao_social, cd_api, id_empresa) values (?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
+2021-08-27 21:05:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DS_CNPJ VARCHAR(14)": "'XX.XXX.XXX/0001-XX' (18)"; SQL statement:
+insert into t_gnt_usuario_juridico (bool_authenticateid, id_carteira, ds_cnpj, id_endereco, bool_entracedid, nm_fantasia, nm_razao_social, cd_api, id_empresa) values (?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
