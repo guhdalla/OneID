@@ -1,9 +1,11 @@
 package br.com.fiap.oneid.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.oneid.repository.UsuarioJuridicoRepository;
@@ -27,7 +29,7 @@ public class UsuarioJuridicoService {
 	}
 	
 	public UsuarioJuridico create(UsuarioJuridico usuarioJuridico) {
-		Carteira carteira = repositoryCarteira.save(new Carteira());
+		Carteira carteira = repositoryCarteira.save(new Carteira(0));
 		usuarioJuridico.setCarteira(carteira);
 		return repo.save(usuarioJuridico);
 	}
@@ -36,8 +38,8 @@ public class UsuarioJuridicoService {
 		return repo.findById(id);
 	}
 	
-	public List<UsuarioJuridico> getAll(){
-		return repo.findAll();
+	public Page<UsuarioJuridico> getAll(@PageableDefault Pageable pageable){
+		return repo.findAll(pageable);
 	}
 	
 	public void delete(Long id) {

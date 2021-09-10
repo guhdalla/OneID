@@ -1,6 +1,10 @@
 package br.com.fiap.oneid.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.*;
 
@@ -18,10 +22,14 @@ public class Dispositivo {
 	@GeneratedValue(generator = "dispositivo", strategy = GenerationType.SEQUENCE)
 	private Long idDispositivo;
 	
-	@Column(name="cd_dispositivo", length = 10, nullable = false)
+	@Column(name="cd_dispositivo", length = 10, nullable = false, unique = true)
+	@NotBlank
+	@Size(max = 10)
 	private String cdDispositivo;
 	
 	@Column(name="nr_status", length = 1, nullable = false)
+	@NotNull
+	@Max(3)
 	private int statusDispositivo;
 	
 	@ManyToOne

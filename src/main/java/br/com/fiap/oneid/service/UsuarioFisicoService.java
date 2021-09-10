@@ -1,9 +1,11 @@
 package br.com.fiap.oneid.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.oneid.model.Carteira;
@@ -25,7 +27,7 @@ public class UsuarioFisicoService {
 	}
 
 	public UsuarioFisico create(UsuarioFisico usuarioFisico) {
-		Carteira carteira = repositoryCarteira.save(new Carteira());
+		Carteira carteira = repositoryCarteira.save(new Carteira(0));
 		usuarioFisico.setCarteira(carteira);
 		return repository.save(usuarioFisico);
 	}
@@ -34,8 +36,8 @@ public class UsuarioFisicoService {
 		return repository.findById(id);
 	}
 
-	public List<UsuarioFisico> getAll() {
-		return repository.findAll();
+	public Page<UsuarioFisico> getAll(@PageableDefault Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	public void delete(Long id) {
@@ -54,17 +56,10 @@ public class UsuarioFisicoService {
 	}
 
 	public UsuarioFisico updateData(UsuarioFisico current, UsuarioFisico updated) {
-		current.setPrimeiroNome(updated.getPrimeiroNome());
-		current.setSobrenome(updated.getSobrenome());
-		current.setDataNascimento(updated.getDataNascimento());
 		current.setEmail(updated.getEmail());
 		current.setTelefone(updated.getTelefone());
 		current.setSenha(updated.getSenha());
 		current.setFotoPerfil(updated.getFotoPerfil());
-		current.setCpf(updated.getCpf());
-		current.setCarteira(updated.getCarteira());
-		current.setAtividades(updated.getAtividades());
-		current.setTransacoes(updated.getTransacoes());
 		return current;
 	}
 }

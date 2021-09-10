@@ -3,6 +3,8 @@ package br.com.fiap.oneid.model;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.*;
 
@@ -12,12 +14,13 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 @Table(name = "T_GNT_USUARIO_JURIDICO")
 public class UsuarioJuridico extends Usuario {
 
 	@Column(name = "nm_fantasia", length = 50, nullable = false)
+	@Size(max = 50)
+	@NotBlank
 	private String nomeFantasia;
 
 	@Column(name = "bool_authenticateID", nullable = false)
@@ -27,13 +30,18 @@ public class UsuarioJuridico extends Usuario {
 	private boolean entracedID;
 
 	// Modificação para 20 , nao necessita de máscara. 
-	@Column(name = "ds_cnpj", length = 23, nullable = false)
+	@Column(name = "ds_cnpj", length = 23, nullable = false, unique = true)
+	@Size(min = 23, max = 23)
+	@NotBlank
 	private String cnpj;
 
-	@Column(name = "nm_razao_social", length = 15, nullable = false)
+	@Column(name = "nm_razao_social", length = 50, nullable = false, unique = true)
+	@Size(max = 50)
+	@NotBlank
 	private String razaoSocial;
 
-	@Column(name = "cd_api", nullable = false)
+	@Column(name = "cd_api", nullable = false, unique = true)
+	@NotBlank
 	private String tokenApi;
 
 	@OneToOne

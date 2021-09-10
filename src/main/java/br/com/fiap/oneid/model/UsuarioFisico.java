@@ -3,6 +3,7 @@ package br.com.fiap.oneid.model;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import lombok.*;
 
@@ -12,11 +13,12 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 @Table(name = "T_GNT_USUARIO_FISICO")
 public class UsuarioFisico extends Usuario {
 
+	@Size(min= 11, max = 11)
+	@NotBlank
 	@Column(name = "ds_cpf", length = 11, nullable = false, unique = true)
 	private String cpf;
 

@@ -1,10 +1,14 @@
 package br.com.fiap.oneid.controller.api;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,46 +27,47 @@ import br.com.fiap.oneid.service.UsuarioFisicoService;
 @RequestMapping("/api/usuario/fisico")
 public class ApiUsuarioFisicoController {
 
-    final
-    UsuarioFisicoService service;
+	final UsuarioFisicoService service;
 
-    @Autowired
-    public ApiUsuarioFisicoController(UsuarioFisicoService service) {
-        this.service = service;
-    }
+	@Autowired
+	public ApiUsuarioFisicoController(UsuarioFisicoService service) {
+		this.service = service;
+	}
 
-    @PostMapping
-    public ResponseEntity<UsuarioFisico> cadastrarUsuarioFisico(@RequestBody UsuarioFisico usuarioFisico, UriComponentsBuilder uriBuilder){
-    	UsuarioFisico createdUsuarioFisico = service.create(usuarioFisico);
-    	URI uri = uriBuilder.path("/api/usuario/fisico{id}").buildAndExpand(createdUsuarioFisico.getIdUsuario()).toUri();
-        return ResponseEntity.created(uri).body(createdUsuarioFisico);
-    }
+	@PostMapping
+	public ResponseEntity<UsuarioFisico> cadastrarUsuarioFisico(@RequestBody @Valid UsuarioFisico usuarioFisico,
+			UriComponentsBuilder uriBuilder) {
+		UsuarioFisico createdUsuarioFisico = service.create(usuarioFisico);
+		URI uri = uriBuilder.path("/api/usuario/fisico{id}").buildAndExpand(createdUsuarioFisico.getIdUsuario())
+				.toUri();
+		return ResponseEntity.created(uri).body(createdUsuarioFisico);
+	}
 
-    @PutMapping("{id}")
-    public ResponseEntity<UsuarioFisico> atualizarUsuarioFisico(@PathVariable Long id, @RequestBody UsuarioFisico usuarioFisico){
-    	UsuarioFisico usuarioFisicoUpdated = service.update(id, usuarioFisico);
-    	if(usuarioFisicoUpdated == null)
-    		return ResponseEntity.notFound().build();
-    	return ResponseEntity.ok().body(usuarioFisicoUpdated);
-    }
+	@PutMapping("{id}")
+	public ResponseEntity<UsuarioFisico> atualizarUsuarioFisico(@PathVariable Long id,
+			@RequestBody @Valid UsuarioFisico usuarioFisico) {
+		UsuarioFisico usuarioFisicoUpdated = service.update(id, usuarioFisico);
+		if (usuarioFisicoUpdated == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok().body(usuarioFisicoUpdated);
+	}
 
-    @GetMapping
-    public ResponseEntity<List<UsuarioFisico>> buscarTodosUsuarios(){
-        List<UsuarioFisico> listUsuarioFisico = service.getAll();
-        return ResponseEntity.ok().body(listUsuarioFisico);
-    }
-    
-    @GetMapping("{id}")
-    public ResponseEntity<UsuarioFisico> buscarUsuarioFisico(@PathVariable Long id){
-    	Optional<UsuarioFisico> usuarioFisico = service.findById(id);
-		if (usuarioFisico.isPresent())
-			return ResponseEntity.ok(usuarioFisico.get());
-		return ResponseEntity.notFound().build();
-    }
+	@GetMapping
+	public Page<UsuarioFisico> buscarTodosUsuarios(@PageableDefault Pageable pageable) {
+		return service.getAll(pageable);
+	}
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletarUsuarioFisico(@PathVariable Long id){
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-}		
+	@GetMapping("{id}")
+	public ResponseEntity<UsuarioFisico> buscarUsuarioFisico(@PathVariable Long id) {
+		return ResponseEntity.of(service.findById(id));
+	}
+
+	@DeleteMapping("{id}")
+	public ResponseEntity<Void> deletarUsuarioFisico(@PathVariable Long id) {
+		Optional<UsuarioFisico> user = service.findById(id);
+		if (user.isEmpty()) 
+			return ResponseEntity.notFound().build();
+		service.delete(id);
+		return ResponseEntity.ok().build();
+	}
+}
