@@ -27,7 +27,7 @@ public class UsuarioJuridico extends Usuario {
 	private boolean authenticateID;
 
 	@Column(name = "bool_entracedID", nullable = false)
-	private boolean entracedID;
+	private boolean entranceID;
 
 	// Modificação para 20 , nao necessita de máscara. 
 	@Column(name = "ds_cnpj", length = 23, nullable = false, unique = true)
