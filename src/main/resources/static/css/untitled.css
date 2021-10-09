@@ -1,0 +1,284 @@
+.bg-white {
+  background-color: #0d0d0d!important;
+}
+
+.card:hover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #0d0d0d;
+  background-clip: border-box;
+  border: 1px solid #151515;
+  border-radius: .35rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #151515;
+  background-clip: border-box;
+  border: 1px solid #151515;
+  border-radius: .35rem;
+}
+
+.topbar .topbar-divider {
+  width: 0;
+  border-right: 1px solid rgba(166,36,131,0.5);
+  height: 2.375rem;
+  margin: auto 1rem;
+}
+
+.text-gray-300 {
+  color: #a62483!important;
+}
+
+.card-header {
+  padding: .75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #0d0d0d;
+  border-bottom: 1px solid rgba(166,36,131,0.5);
+}
+
+.text-primary:hover {
+  color: #eeeeee!important;
+}
+
+.text-primary {
+  color: #858796!important;
+}
+
+.border-left-primary {
+  border-left: .25rem solid #e65d50!important;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: .5rem 0;
+  margin: .125rem 0 0;
+  font-size: .85rem;
+  color: #858796;
+  text-align: left;
+  list-style: none;
+  background-color: #151515;
+  background-clip: padding-box;
+  border: 1px solid #151515;
+  border-radius: .35rem;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+  color: #eeeeee;
+  text-decoration: none;
+  background-color: #0d0d0d;
+}
+
+.text-gray-400 {
+  color: #a62483!important;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #858796;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+
+.dropdown-divider {
+  height: 0;
+  margin: .5rem 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(166,36,131,0.5);
+}
+
+.table {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #858796;
+}
+
+.tbody tr:hover {
+  color: #eeeeee;
+  background-color: rgb(13,13,13);
+}
+
+.scroll-to-top:hover {
+  background: #0d0d0d;
+}
+
+.scroll-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  text-align: center;
+  color: #fff;
+  background: #151515;
+  line-height: 46px;
+}
+
+.table-hover tbody tr:hover {
+  color: #eeeeee;
+  background-color: #0d0d0d;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #a62483;
+  border-color: #a62483;
+}
+
+.btn-primary.focus, .btn-primary:focus, .btn-primary:hover {
+  color: #fff;
+  background-color: #78308c;
+  border-color: #78308c;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto,Nunito,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #858796;
+  text-align: left;
+  background-color: rgb(30,30,30);
+}
+
+.text-dark .span {
+  color: #5a5c69!important;
+}
+
+.text-dark span:hover {
+  color: #eeeeee!important;
+}
+
+.text-dark {
+  color: #858796!important;
+}
+
+.text-dark span {
+  color: #858796!important;
+}
+
+#wrapper #content-wrapper {
+  background-color: rgba(248,249,252,0);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.rounded-circle {
+}
+
+.topbar.navbar-light .navbar-nav .nav-item .nav-link {
+  color: #a62483;
+}
+
+.topbar.navbar-light .navbar-nav .nav-item .nav-link:hover {
+  color: #78308c;
+}
+
+.topbar.navbar-light .navbar-nav .nav-item .nav-link:active {
+  color: #78308c;
+}
+
+.bg-danger {
+  background-color: #a62483!important;
+}
+
+.border {
+  border: 1px solid rgba(166,36,131,0.5)!important;
+}
+
+.bg-gradient-primary {
+  background-color: #4e73df;
+  background-image: linear-gradient(180deg,#0d0d0d 10%,#0d0d0d);
+  background-size: cover;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  color: #eeeeee;
+  background-color: #78308c;
+  border-color: #78308c;
+}
+
+.text-black-50 {
+  color: rgb(133,135,150)!important;
+}
+
+#redSpan {
+  color: #e65d50;
+  border-left-color: rgb(230, 93, 80);
+}
+
+#progressBarInfo {
+  height: 15px;
+}
+
+#cardAtividades {
+  background: #151515;
+}
+
+.iconCheck-in {
+  color: var(--green);
+}
+
+.iconCheck-out {
+  color: #e65d50;
+}
+
+#sectionLogin {
+  height: 100%;
+  padding: 0px;
+  width: 100%;
+}
+
+#columnFormLogin {
+  height: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  background: #151515;
+}
+
+#columnLoginImage {
+  background: url("../../assets/img/pexels-anni-roenkae-3109807.jpg") center / cover no-repeat;
+  height: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#formLogin {
+  background: #0d0d0d;
+  box-shadow: 0px 0px 20px 5px rgb(0,0,0);
+}
+
+.inputRadius {
+  border-radius: 10px!important;
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+#cardBodyAPI {
+  background: #151515;
+}
+

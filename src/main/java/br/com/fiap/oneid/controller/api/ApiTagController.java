@@ -1,6 +1,7 @@
 package br.com.fiap.oneid.controller.api;
 
 import br.com.fiap.oneid.model.Tag;
+import br.com.fiap.oneid.model.Usuario;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -38,15 +40,31 @@ public class ApiTagController {
 	public Page<Tag> buscarTodasTags(@PageableDefault Pageable pageable) {
 		return service.getAll(pageable);
 	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<Tag> atualizarTag(@PathVariable Long id, @RequestBody @Valid Tag tag) {
-		return ResponseEntity.ok().body(service.update(id, tag));
+	
+	@GetMapping("/{id}/{numeroStatus}")
+	public List<Tag> buscarTodasTagsPorUsuarioAndNumeroStatus(@PathVariable Long id, @PathVariable int numeroStatus) {
+		return service.findByIdUsuarioAndNumeroStatus(id, numeroStatus);
 	}
 
-	@PutMapping("/{id}/{status}")
-	public ResponseEntity<Tag> atualizarStatusTag(@PathVariable Long id, @PathVariable int status) {
-		return ResponseEntity.ok().body(service.modifyStatus(id, status));
+	@GetMapping("/{id}")
+	public List<Tag> buscarTodasTagsPorUsuario(@PathVariable Long id) {
+		return service.findByIdUsuario(id);
+	}
+
+	@PutMapping("/{codigoPin}")
+	public ResponseEntity<Tag> atualizarTag(@PathVariable String codigoPin, @RequestBody Tag tag) {
+		Tag tagUpdated = service.vincular(codigoPin, tag);
+		if(tagUpdated == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok().body(tagUpdated);
+	}
+
+	@PutMapping("/{codigoPin}/{status}")
+	public ResponseEntity<Tag> atualizarStatusTag(@PathVariable String codigoPin, @PathVariable int status) {
+		Tag tagUpdated = service.modifyStatus(codigoPin, status);
+		if(tagUpdated == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok().body(tagUpdated);
 	}
 
 	@DeleteMapping("/{id}")

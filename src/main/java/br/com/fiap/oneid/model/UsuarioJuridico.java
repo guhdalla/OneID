@@ -30,8 +30,8 @@ public class UsuarioJuridico extends Usuario {
 	private boolean entranceID;
 
 	// Modificação para 20 , nao necessita de máscara. 
-	@Column(name = "ds_cnpj", length = 23, nullable = false, unique = true)
-	@Size(min = 23, max = 23)
+	@Column(name = "ds_cnpj", length = 14, nullable = false, unique = true)
+	@Size(min = 14, max = 14)
 	@NotBlank
 	private String cnpj;
 

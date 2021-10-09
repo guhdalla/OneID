@@ -31,6 +31,7 @@ public class UsuarioJuridicoService {
 	public UsuarioJuridico create(UsuarioJuridico usuarioJuridico) {
 		Carteira carteira = repositoryCarteira.save(new Carteira(0));
 		usuarioJuridico.setCarteira(carteira);
+		usuarioJuridico.setSenha(AuthenticationService.getPasswordEncoder().encode(usuarioJuridico.getSenha()));
 		return repo.save(usuarioJuridico);
 	}
 	

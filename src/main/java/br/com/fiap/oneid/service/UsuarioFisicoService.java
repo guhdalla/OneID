@@ -29,6 +29,7 @@ public class UsuarioFisicoService {
 	public UsuarioFisico create(UsuarioFisico usuarioFisico) {
 		Carteira carteira = repositoryCarteira.save(new Carteira(0));
 		usuarioFisico.setCarteira(carteira);
+		usuarioFisico.setSenha(AuthenticationService.getPasswordEncoder().encode(usuarioFisico.getSenha()));
 		return repository.save(usuarioFisico);
 	}
 
