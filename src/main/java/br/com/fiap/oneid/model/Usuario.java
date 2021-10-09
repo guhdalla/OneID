@@ -19,10 +19,7 @@ import lombok.*;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "T_GNT_USUARIO")
 @SequenceGenerator(name = "usuario", sequenceName = "SQ_T_GNT_USUARIO", allocationSize = 1)
@@ -65,10 +62,10 @@ public class Usuario implements UserDetails {
 	@NotBlank
 	private String telefone;
 
-	@Column(name = "ds_senha", length = 20, nullable = false)
+	@Column(name = "ds_senha", nullable = false)
 	@NotBlank
-	@Size(max = 20)
-	private String senha;
+	@Size(min = 4)
+	private String password;
 	
 	@Column(name = "ft_perfil")
 	@NotBlank
@@ -85,7 +82,7 @@ public class Usuario implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return null;
+		return this.password;
 	}
 
 	@Override

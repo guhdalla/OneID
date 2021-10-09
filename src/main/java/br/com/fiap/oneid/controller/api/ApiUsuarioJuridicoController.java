@@ -48,7 +48,7 @@ public class ApiUsuarioJuridicoController {
 		return repo.findById(id).map(x -> {
 			x.setEmail(usuario.getEmail());
 			x.setFotoPerfil(usuario.getFotoPerfil());
-			x.setSenha(usuario.getSenha());
+			x.setPassword(usuario.getPassword());
 			x.setEndereco(usuario.getEndereco());
 			x.setTelefone(usuario.getTelefone());
 			UsuarioJuridico userAtualizado = repo.update(x.getIdUsuario(), usuario);

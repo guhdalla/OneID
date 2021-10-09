@@ -31,7 +31,7 @@ public class UsuarioJuridicoService {
 	public UsuarioJuridico create(UsuarioJuridico usuarioJuridico) {
 		Carteira carteira = repositoryCarteira.save(new Carteira(0));
 		usuarioJuridico.setCarteira(carteira);
-		usuarioJuridico.setSenha(AuthenticationService.getPasswordEncoder().encode(usuarioJuridico.getSenha()));
+		usuarioJuridico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioJuridico.getPassword()));
 		return repo.save(usuarioJuridico);
 	}
 	
@@ -54,7 +54,7 @@ public class UsuarioJuridicoService {
 		UsuarioJuridico u = userOptional.get();
 		u.setEmail(usuario.getEmail());
 		u.setFotoPerfil(usuario.getFotoPerfil());
-		u.setSenha(usuario.getSenha());
+		u.setPassword(usuario.getPassword());
 		u.setEndereco(usuario.getEndereco());
 		u.setTelefone(usuario.getTelefone());
 		return repo.save(u);	

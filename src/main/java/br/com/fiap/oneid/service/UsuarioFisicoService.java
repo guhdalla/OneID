@@ -29,7 +29,7 @@ public class UsuarioFisicoService {
 	public UsuarioFisico create(UsuarioFisico usuarioFisico) {
 		Carteira carteira = repositoryCarteira.save(new Carteira(0));
 		usuarioFisico.setCarteira(carteira);
-		usuarioFisico.setSenha(AuthenticationService.getPasswordEncoder().encode(usuarioFisico.getSenha()));
+		usuarioFisico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioFisico.getPassword()));
 		return repository.save(usuarioFisico);
 	}
 
@@ -59,7 +59,7 @@ public class UsuarioFisicoService {
 	public UsuarioFisico updateData(UsuarioFisico current, UsuarioFisico updated) {
 		current.setEmail(updated.getEmail());
 		current.setTelefone(updated.getTelefone());
-		current.setSenha(updated.getSenha());
+		current.setPassword(updated.getPassword());
 		current.setFotoPerfil(updated.getFotoPerfil());
 		return current;
 	}
