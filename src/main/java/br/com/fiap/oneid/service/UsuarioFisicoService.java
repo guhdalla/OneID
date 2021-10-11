@@ -9,8 +9,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.oneid.model.Carteira;
+import br.com.fiap.oneid.model.Role;
 import br.com.fiap.oneid.model.UsuarioFisico;
 import br.com.fiap.oneid.repository.CarteiraReposiory;
+import br.com.fiap.oneid.repository.RoleRepository;
 import br.com.fiap.oneid.repository.UsuarioFisicoRepository;
 
 @Service
@@ -19,18 +21,28 @@ public class UsuarioFisicoService {
 	final UsuarioFisicoRepository repository;
 	
 	final CarteiraReposiory repositoryCarteira;
+	
+	final RoleRepository repositoryRole;
 
 	@Autowired
-	public UsuarioFisicoService(UsuarioFisicoRepository repository, CarteiraReposiory repositoryCarteira) {
+	public UsuarioFisicoService(UsuarioFisicoRepository repository, CarteiraReposiory repositoryCarteira, RoleRepository repositoryRole) {
 		this.repository = repository;
 		this.repositoryCarteira = repositoryCarteira;
+		this.repositoryRole = repositoryRole;
 	}
 
 	public UsuarioFisico create(UsuarioFisico usuarioFisico) {
-		Carteira carteira = repositoryCarteira.save(new Carteira(0));
-		usuarioFisico.setCarteira(carteira);
-		usuarioFisico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioFisico.getPassword()));
-		return repository.save(usuarioFisico);
+		try {
+			Optional<Role> role = repositoryRole.findByName("ROLE_FISICO");
+			if(role.isEmpty()) return null;
+			usuarioFisico.addRole(role.get());
+			Carteira carteira = repositoryCarteira.save(new Carteira(0));
+			usuarioFisico.setCarteira(carteira);
+			usuarioFisico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioFisico.getPassword()));
+			return repository.save(usuarioFisico);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public Optional<UsuarioFisico> findById(Long id) {

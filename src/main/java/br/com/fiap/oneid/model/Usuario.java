@@ -1,5 +1,6 @@
 package br.com.fiap.oneid.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -74,10 +75,13 @@ public class Usuario implements UserDetails {
 	@JsonIgnore
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private List<Tag> tag;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Role> roles = new ArrayList<Role>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return roles;
 	}
 
 	@Override
@@ -108,6 +112,10 @@ public class Usuario implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	public void addRole(Role role) {
+		this.roles.add(role);
 	}
 
 }

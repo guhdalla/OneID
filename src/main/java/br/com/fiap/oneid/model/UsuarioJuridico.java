@@ -18,6 +18,8 @@ import lombok.*;
 @Table(name = "T_GNT_USUARIO_JURIDICO")
 public class UsuarioJuridico extends Usuario {
 
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "nm_fantasia", length = 50, nullable = false)
 	@Size(max = 50)
 	@NotBlank

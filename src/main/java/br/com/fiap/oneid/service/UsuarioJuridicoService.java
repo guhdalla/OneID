@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import br.com.fiap.oneid.repository.UsuarioJuridicoRepository;
 import br.com.fiap.oneid.model.Carteira;
+import br.com.fiap.oneid.model.Role;
 import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.repository.CarteiraReposiory;
+import br.com.fiap.oneid.repository.RoleRepository;
 
 @Service
 public class UsuarioJuridicoService {
@@ -22,17 +24,27 @@ public class UsuarioJuridicoService {
 	
 	final CarteiraReposiory repositoryCarteira;
 	
+	final RoleRepository repositoryRole;
+	
 	@Autowired
-	public UsuarioJuridicoService(UsuarioJuridicoRepository repository, CarteiraReposiory repositoryCarteira) {
+	public UsuarioJuridicoService(UsuarioJuridicoRepository repository, CarteiraReposiory repositoryCarteira, RoleRepository repositoryRole) {
 		this.repo = repository;
 		this.repositoryCarteira = repositoryCarteira;
+		this.repositoryRole = repositoryRole;
 	}
 	
 	public UsuarioJuridico create(UsuarioJuridico usuarioJuridico) {
-		Carteira carteira = repositoryCarteira.save(new Carteira(0));
-		usuarioJuridico.setCarteira(carteira);
-		usuarioJuridico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioJuridico.getPassword()));
-		return repo.save(usuarioJuridico);
+		try {
+			Optional<Role> role = repositoryRole.findByName("ROLE_JURIDICO");
+			if(role.isEmpty()) return null;
+			usuarioJuridico.addRole(role.get());
+			Carteira carteira = repositoryCarteira.save(new Carteira(0));
+			usuarioJuridico.setCarteira(carteira);
+			usuarioJuridico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioJuridico.getPassword()));
+			return repo.save(usuarioJuridico);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public Optional<UsuarioJuridico> findById(Long id){

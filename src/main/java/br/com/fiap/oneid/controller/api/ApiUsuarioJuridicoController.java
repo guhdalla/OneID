@@ -37,7 +37,8 @@ public class ApiUsuarioJuridicoController {
 	@PostMapping
 	public ResponseEntity<UsuarioJuridico> cadastrarUsuario(@RequestBody @Valid UsuarioJuridico usuario,
 			UriComponentsBuilder uriBuilder) {
-		repo.create(usuario);
+		UsuarioJuridico usuarioJuridico = repo.create(usuario);
+		if(usuarioJuridico == null) return ResponseEntity.badRequest().build();
 		URI uri = uriBuilder.path("/api/usuario/juridico/{id}").buildAndExpand(usuario.getIdUsuario()).toUri();
 		return ResponseEntity.created(uri).body(usuario);
 	}

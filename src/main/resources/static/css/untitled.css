@@ -259,7 +259,7 @@ body {
 }
 
 #columnLoginImage {
-  background: url("../../assets/img/pexels-anni-roenkae-3109807.jpg") center / cover no-repeat;
+  background: url("/img/pexels-anni-roenkae-3109807.jpg") center / cover no-repeat;
   height: 100%;
   padding-left: 0px;
   padding-right: 0px;

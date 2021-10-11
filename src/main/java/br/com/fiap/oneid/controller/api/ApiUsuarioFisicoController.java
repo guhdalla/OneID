@@ -38,6 +38,7 @@ public class ApiUsuarioFisicoController {
 	public ResponseEntity<UsuarioFisico> cadastrarUsuarioFisico(@RequestBody @Valid UsuarioFisico usuarioFisico,
 			UriComponentsBuilder uriBuilder) {
 		UsuarioFisico createdUsuarioFisico = service.create(usuarioFisico);
+		if(createdUsuarioFisico == null) return ResponseEntity.badRequest().build();
 		URI uri = uriBuilder.path("/api/usuario/fisico{id}").buildAndExpand(createdUsuarioFisico.getIdUsuario())
 				.toUri();
 		return ResponseEntity.created(uri).body(createdUsuarioFisico);
