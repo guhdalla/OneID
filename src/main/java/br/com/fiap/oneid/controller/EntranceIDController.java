@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,13 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.fiap.oneid.model.Atividade;
+import br.com.fiap.oneid.model.TotalEstabelecimento;
 import br.com.fiap.oneid.model.Usuario;
 import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.service.EntranceIDService;
 import br.com.fiap.oneid.service.UsuarioJuridicoService;
 
 @Controller
-@RequestMapping(value = {"/", "/entranceid"})
+@RequestMapping("/entranceid")
 public class EntranceIDController {
 	
 	private UsuarioJuridicoService serviceJuridico;
@@ -53,17 +56,14 @@ public class EntranceIDController {
 		modelAndView.addObject("atividadesTotalDentro", atividadesTotalDentro);
 		
 		int totalEstabelecimento = usuarioJuridico.get().getTotalEstabelecimento();
-		double atividadesTotalDentroPorcentage = (double) atividadesTotalDentro / totalEstabelecimento * 100;
+		double atividadesTotalDentroPorcentage = 0;
+		if (totalEstabelecimento <= atividadesTotalDentro) {
+			atividadesTotalDentroPorcentage = 100;
+		} else {
+			atividadesTotalDentroPorcentage = (double) atividadesTotalDentro / totalEstabelecimento * 100;
+		}
+		
 		modelAndView.addObject("atividadesTotalDentroPorcentage", atividadesTotalDentroPorcentage);
 		return modelAndView;
 	}
-	
-	@PostMapping("/total-estabelecimento")
-	public String saveTotalEstabelecimento(UsuarioJuridico usuarioJuridico, BindingResult result, RedirectAttributes redirect, Authentication auth) {
-		if(result.hasErrors()) return "redirect:/config";
-		Usuario usuario = (Usuario) auth.getPrincipal();
-		serviceJuridico.updateTotalEstabeleciemnto(usuario, usuarioJuridico.getTotalEstabelecimento());
-		return "redirect:/config";
-	}
-	
 }

@@ -10,10 +10,7 @@ import javax.validation.constraints.Size;
 
 import java.util.Objects;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "T_GNT_TAG")
 @SequenceGenerator(name = "tag", sequenceName = "SQ_T_GNT_TAG", allocationSize = 1)
