@@ -6,10 +6,7 @@ import javax.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Table(name = "T_GNT_ATIVIDADE")
 @SequenceGenerator(allocationSize = 1, name = "atividade", sequenceName = "SQ_T_GNT_ATIVIDADE")
 public class Atividade {
@@ -23,13 +20,15 @@ public class Atividade {
 	private Date dtCheck;
 
 	@Column(name = "nr_check", nullable = false)
-	private int nrCheck;
-	
-	@ManyToOne
+	private int nrCheck; // 0 = check-out // 1 = check-in
+
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario", nullable = false)
     private UsuarioFisico usuarioFisico;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_empresa", nullable = false)
     private UsuarioJuridico usuarioJuridico;
+	
+	
 }

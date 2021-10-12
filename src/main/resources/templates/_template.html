@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>Dashboard - Brand</title>
+<title>EntranceID</title>
 <link rel="stylesheet" type="text/css"
 	th:href="@{~/bootstrap/css/bootstrap.min.css}">
 <link rel="stylesheet"
@@ -30,15 +30,18 @@
 		<div class="container-fluid">
 			<ul class="navbar-nav">
 				<li class="nav-item dropdown no-arrow mx-1"><a class="nav-link"
-					href="entranceid.html"><img th:src="@{~/img/logoNome.png}"
+					href="/entranceid"><img th:src="@{~/img/logoNome.png}"
 						width="200"></a></li>
 			</ul>
+			
+			<span th:text="${#authentication.getPrincipal().getNomeFantasia()}"></span>
+			
 			<ul
 				class="navbar-nav d-xl-flex flex-nowrap ml-auto justify-content-xl-center align-items-xl-center"
 				style="width: 100px;">
 				<li class="nav-item dropdown no-arrow"><a
 					class="nav-link d-xl-flex justify-content-xl-center align-items-xl-center"
-					href="config.html"><i class="fa fa-gear"></i></a></li>
+					href="/config"><i class="fa fa-gear"></i></a></li>
 				<div class="d-none d-sm-block topbar-divider"></div>
 
 

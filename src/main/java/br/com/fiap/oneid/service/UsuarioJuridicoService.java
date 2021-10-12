@@ -1,5 +1,6 @@
 package br.com.fiap.oneid.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.oneid.repository.UsuarioJuridicoRepository;
+import br.com.fiap.oneid.model.Atividade;
 import br.com.fiap.oneid.model.Carteira;
 import br.com.fiap.oneid.model.Role;
+import br.com.fiap.oneid.model.Usuario;
 import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.repository.CarteiraReposiory;
 import br.com.fiap.oneid.repository.RoleRepository;
@@ -69,6 +72,26 @@ public class UsuarioJuridicoService {
 		u.setPassword(usuario.getPassword());
 		u.setEndereco(usuario.getEndereco());
 		u.setTelefone(usuario.getTelefone());
+		u.setTotalEstabelecimento(usuario.getTotalEstabelecimento());
 		return repo.save(u);	
+	}
+	
+	public List<Atividade> getAtividades(Usuario usuario) {
+		Optional<UsuarioJuridico> usuarioJuridico = findById(usuario.getIdUsuario());
+		if(usuarioJuridico.isEmpty()) return null;
+		return usuarioJuridico.get().getAtividades();
+	}
+	
+	public void updateTotalEstabeleciemnto(Usuario usuario, int totalEstabelecimento) {
+		Optional<UsuarioJuridico> usuarioJuridico = findById(usuario.getIdUsuario());
+		if(usuarioJuridico.isEmpty()) return;
+		usuarioJuridico.get().setTotalEstabelecimento(totalEstabelecimento);
+		update(usuario.getIdUsuario(), usuarioJuridico.get());
+	}
+	
+	public int getTotalEstabelecimento(Usuario usuario) {
+		Optional<UsuarioJuridico> usuarioJuridico = findById(usuario.getIdUsuario());
+		if(usuarioJuridico.isEmpty()) return 0;
+		return usuarioJuridico.get().getTotalEstabelecimento();
 	}
 }

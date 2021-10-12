@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import br.com.fiap.oneid.service.AuthenticationService;
 
@@ -25,7 +26,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.anyRequest()
+			.antMatchers("/entranceid/**", "/config/**")
+				.hasRole("JURIDICO")
+			.antMatchers("/entranceid/**", "/config/**")
 				.authenticated()
 			.and()
 				.formLogin()
@@ -33,7 +36,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.defaultSuccessUrl("/entranceid")
 			.and()
 				.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/login")
+//			.and()
+//				.csrf()
+//					.disable()
+//			.headers().frameOptions().disable()
 		;
 	}
 

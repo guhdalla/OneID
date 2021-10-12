@@ -1,32 +1,43 @@
 <!DOCTYPE html>
-<html style="height: 100%;width: 100%;">
+<html style="height: 100%; width: 100%;" xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:include="_template :: head"></head>
 
-<body style="height: 100%;width: 100%;">
-    <section class="d-flex align-items-xl-center login-clean" id="sectionLogin">
-        <div class="col-xl-6 d-xl-flex align-items-xl-center" id="columnFormLogin">
-            <form class="float-right" id="formLogin" method="post">
-                <h2 class="sr-only">Login Form</h2>
-                <div class="illustration"><img th:src="@{~/img/logoNomeBaixo.png}" width="150px"></div>
-                <div class="alert alert-danger" role="alert">
-                    <div class="form-row">
-                        <div class="col-md-6"><span><strong>Erro</strong></span>
-                            <p>Erro.</p>
-                        </div>
-                        <div class="col-md-6 d-xl-flex justify-content-xl-end align-items-xl-start"><a class="alert-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
-                                    <path d="M6.2253 4.81108C5.83477 4.42056 5.20161 4.42056 4.81108 4.81108C4.42056 5.20161 4.42056 5.83477 4.81108 6.2253L10.5858 12L4.81114 17.7747C4.42062 18.1652 4.42062 18.7984 4.81114 19.1889C5.20167 19.5794 5.83483 19.5794 6.22535 19.1889L12 13.4142L17.7747 19.1889C18.1652 19.5794 18.7984 19.5794 19.1889 19.1889C19.5794 18.7984 19.5794 18.1652 19.1889 17.7747L13.4142 12L19.189 6.2253C19.5795 5.83477 19.5795 5.20161 19.189 4.81108C18.7985 4.42056 18.1653 4.42056 17.7748 4.81108L12 10.5858L6.2253 4.81108Z" fill="currentColor"></path>
-                                </svg></a></div>
-                    </div>
-                </div>
-                <div class="form-group"><input class="form-control inputRadius" type="email" name="email" placeholder="Email"></div>
-                <div class="form-group"><input class="form-control inputRadius" type="password" name="password" placeholder="Senha"></div>
-                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Entrar</button></div>
-            </form>
-        </div>
-        <div class="col-xl-6" id="columnLoginImage"></div>
-    </section>
-    <script th:src="@{~/js/jquery.min.js}"></script>
+<body style="height: 100%; width: 100%;">
+	<section class="d-flex align-items-xl-center login-clean"
+		id="sectionLogin">
+		<div class="col-xl-6 d-xl-flex align-items-xl-center"
+			id="columnFormLogin">
+			<form class="float-right" id="formLogin" th:action="@{/login}" method="post">
+				<h2 class="sr-only">Login Form</h2>
+				<div class="illustration">
+					<img th:src="@{~/img/logoNomeBaixo.png}" width="150px">
+				</div>
+				<div class="alert alert-danger" role="alert" th:if="${param.error}">
+					<div class="form-row">
+						<div class="col-md-12">
+							<span><strong>Erro</strong></span>
+							<p>Login Invalido.</p>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<input class="form-control inputRadius" type="email" name="username" id="username"
+						placeholder="Email">
+				</div>
+				<div class="form-group">
+					<input class="form-control inputRadius" type="password"
+						name="password" id="password" placeholder="Senha">
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block" type="submit">Entrar</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-xl-6" id="columnLoginImage"></div>
+	</section>
+	<script th:src="@{~/js/jquery.min.js}"></script>
 	<script th:src="@{~/bootstrap/js/bootstrap.min.js}"></script>
 	<script
 		th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js}"></script>

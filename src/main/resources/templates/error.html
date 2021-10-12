@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="fullHeight" xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:include="_template :: head"></head>
+
+<body id="page-top" class="fullHeight">
+	<div id="wrapper" class="fullHeight">
+		<div class="d-flex flex-column" id="content-wrapper">
+			<div class="d-xl-flex align-items-xl-center" id="content">
+				<div class="container-fluid">
+					<div class="text-center mt-5">
+						<div class="error mx-auto" th:data-text="${status}">
+							<p class="m-0" th:text="${status}"></p>
+						</div>
+						<p class="text-dark mb-5 lead" th:text="${error}"></p>
+						<p class="text-dark mb-5 lead" th:text="${message}"></p>
+						<p class="text-dark mb-5 lead" style="text-align: justify;" th:text="${trace}"></p>
+						<button class="btn btn-primary btn-block" onclick="history.back()">
+							Voltar</button>
+							<!--
+						<table>
+							<tr>
+								<td>Date</td>
+								<td th:text="${timestamp}" />
+							</tr>
+							<tr>
+								<td>Path</td>
+								<td th:text="${path}" />
+							</tr>
+							<tr>
+								<td>Error</td>
+								<td th:text="${error}" />
+							</tr>
+							<tr>
+								<td>Status</td>
+								<td th:text="${status}" />
+							</tr>
+							<tr>
+								<td>Message</td>
+								<td th:text="${message}" />
+							</tr>
+							<tr>
+								<td>Exception</td>
+								<td th:text="${exception}" />
+							</tr>
+							<tr>
+								<td>Trace</td>
+								<td><p th:text="${trace}" /></td>
+							</tr>
+						</table> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{~/js/jquery.min.js}"></script>
+	<script th:src="@{~/bootstrap/js/bootstrap.min.js}"></script>
+	<script
+		th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js}"></script>
+	<script th:src="@{~/js/theme.js}"></script>
+</body>
+
+</html>
