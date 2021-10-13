@@ -21,26 +21,26 @@
 											<strong>Total do Estabelecimento</strong>
 										</p>
 									</div>
-
-									<form th:action="@{/config/total-estabelecimento}"
-										method="POST" th:object="${totalEstabelecimento}">
-										<div class="alert alert-success" role="alert" th:if="${success != null}" th:text="${success}"></div>
-										<div class="form-group">
-											<input type="number" min="0" name="numero" id="numero"
-												th:field="*{numero}" class="form-control"
-												th:classappend="${#fields.hasErrors('numero')}?is-invalid">
-											<div th:errors="*{numero}" class="invalid-feedback"></div>
-										</div>
-
-										<div class="form-group">
-											<button class="btn btn-primary btn-block" type="submit">Salvar</button>
-										</div>
-
-									</form>
-
 								</div>
 							</div>
-							<div class="card-body" id="cardBodyAPI"></div>
+							<div class="card-body" id="cardBodyAPI">
+								<form th:action="@{/config/total-estabelecimento}" method="POST"
+									th:object="${totalEstabelecimento}" id="formTotalEstabelecimento">
+									<div class="alert alert-success" role="alert"
+										th:if="${success != null}" th:text="${success}"></div>
+									<div class="form-group">
+										<input type="number" min="0" name="numero" id="numero"
+											th:field="*{numero}" class="form-control"
+											th:classappend="${#fields.hasErrors('numero')}?is-invalid">
+										<div th:errors="*{numero}" class="invalid-feedback"></div>
+									</div>
+
+									<div class="form-group">
+										<button class="btn btn-primary btn-block" type="submit">Salvar</button>
+									</div>
+
+								</form>
+							</div>
 						</div>
 						<div class="card shadow">
 							<div class="card-header py-3">

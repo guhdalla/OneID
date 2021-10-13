@@ -7,6 +7,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 
 @PrimaryKeyJoinColumn(name = "id_empresa")
@@ -57,9 +59,11 @@ public class UsuarioJuridico extends Usuario {
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "usuarioJuridico", fetch = FetchType.LAZY)
 	private List<Atividade> atividades;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "usuarioJuridico", fetch = FetchType.LAZY)
 	private List<Transacao> transacoes;
 

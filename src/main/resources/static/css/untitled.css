@@ -24,6 +24,7 @@
   background-clip: border-box;
   border: 1px solid #151515;
   border-radius: .35rem;
+  margin-bottom: 20px;
 }
 
 .topbar .topbar-divider {
@@ -279,6 +280,7 @@ body {
 }
 
 #cardBodyAPI {
-  background: #151515;
+  background: transparent;
+  max-width: 300px;
 }
 

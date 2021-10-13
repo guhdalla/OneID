@@ -27,7 +27,7 @@ public class TokenService {
 		long duration = 60000 * 1440;
 		Date expirationDate = new Date(today.getTime() + duration);
 		return Jwts.builder()
-						.setIssuer("OneIDAPI")
+						.setIssuer("OneID")
 						.setSubject(usuario.getIdUsuario().toString())
 						.setIssuedAt(today)
 						.setExpiration(expirationDate)

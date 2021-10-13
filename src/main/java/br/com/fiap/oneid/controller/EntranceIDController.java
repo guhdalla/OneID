@@ -62,8 +62,9 @@ public class EntranceIDController {
 		} else {
 			atividadesTotalDentroPorcentage = (double) atividadesTotalDentro / totalEstabelecimento * 100;
 		}
+		int atividadesTotalDentroPorcentageInt = (int) atividadesTotalDentroPorcentage;
 		
-		modelAndView.addObject("atividadesTotalDentroPorcentage", atividadesTotalDentroPorcentage);
+		modelAndView.addObject("atividadesTotalDentroPorcentage", atividadesTotalDentroPorcentageInt);
 		return modelAndView;
 	}
 }

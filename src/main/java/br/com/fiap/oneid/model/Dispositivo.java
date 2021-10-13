@@ -29,8 +29,13 @@ public class Dispositivo {
 	
 	@Column(name="nr_status", length = 1, nullable = false)
 	@NotNull
-	@Max(3)
+	@Max(4)
 	private int statusDispositivo;
+	
+	@Column(name = "cd_pin", length = 10, nullable = false, unique = true)
+	@NotBlank
+	@Size(min = 10, max = 10)
+	private String codigoPin;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_empresa", nullable = false)
