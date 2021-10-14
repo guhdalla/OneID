@@ -33,10 +33,10 @@ public class TransacaoService {
         return dispositivo;
     }
 
-    public TransacaoPendente delete(HttpServletRequest request, String codigoDispositivo, InitializingOnDemandHolder INSTANCE){
+    public Optional<TransacaoPendente> delete(HttpServletRequest request, String codigoDispositivo, InitializingOnDemandHolder INSTANCE){
         Dispositivo dispositivo = verifyDispositivo(getUsuarioByToken(request), codigoDispositivo);
         if(dispositivo==null) throw new RuntimeException("Dispositivo não encontrado");
-        return INSTANCE.getContext().stream().filter(x->x.getCodigoDispositivo().equals(codigoDispositivo)).findFirst().get();
+        return INSTANCE.getContext().stream().filter(x->x.getCodigoDispositivo().equals(codigoDispositivo)).findFirst();
     }
 
     public Dispositivo verifyDispositivo(Usuario usuario, String codigoDispositivo){

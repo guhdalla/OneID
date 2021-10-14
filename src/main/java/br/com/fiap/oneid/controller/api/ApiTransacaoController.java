@@ -25,12 +25,6 @@ public class ApiTransacaoController {
     @Autowired
     private TransacaoService service;
 
-
-    @GetMapping
-    public ResponseEntity<List<Transacao>> getAllTransacao(){
-        return ResponseEntity.ok().body(service.getAll());
-    }
-
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid TransacaoPendente transacaoPendente, HttpServletRequest request){
         try{
@@ -46,9 +40,10 @@ public class ApiTransacaoController {
 
     @DeleteMapping("/{codigoDispositivo}")
     public ResponseEntity<Void> deleteTransacaoPendente(HttpServletRequest request, @PathVariable("codigoDispositivo") String codigoDispositivo){
-        TransacaoPendente tp = service.delete(request, codigoDispositivo, INSTANCE);
-        INSTANCE.getContext().remove(tp);
-        return ResponseEntity.notFound().build();
+        Optional<TransacaoPendente> tp = service.delete(request, codigoDispositivo, INSTANCE);
+        if(tp.isEmpty()) return ResponseEntity.notFound().build();
+        INSTANCE.getContext().remove(tp.get());
+        return ResponseEntity.noContent().build();
     }
     
     @GetMapping
