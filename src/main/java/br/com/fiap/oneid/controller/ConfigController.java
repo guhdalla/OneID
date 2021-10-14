@@ -5,8 +5,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,14 +27,11 @@ public class ConfigController {
 	private UsuarioJuridicoService serviceJuridico;
 
 	private ConfigService serviceConfig;
-	
-	private MessageSource messages;
 
 	@Autowired
-	public ConfigController(UsuarioJuridicoService serviceJuridico, ConfigService serviceConfig, MessageSource messages) {
+	public ConfigController(UsuarioJuridicoService serviceJuridico, ConfigService serviceConfig) {
 		this.serviceJuridico = serviceJuridico;
 		this.serviceConfig = serviceConfig;
-		this.messages = messages;
 	}
 
 	@GetMapping

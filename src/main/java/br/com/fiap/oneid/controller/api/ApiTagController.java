@@ -1,7 +1,6 @@
 package br.com.fiap.oneid.controller.api;
 
 import br.com.fiap.oneid.model.Tag;
-import br.com.fiap.oneid.model.Usuario;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -10,9 +9,7 @@ import br.com.fiap.oneid.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,10 +27,9 @@ public class ApiTagController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Tag> cadastrarTag(@RequestBody @Valid Tag tag, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<Tag> cadastrarTag(@RequestBody @Valid Tag tag) {
 		Tag createdTag = service.create(tag);
-		URI uri = uriBuilder.path("/api/usuario/fisico{id}").buildAndExpand(createdTag.getIdTag()).toUri();
-		return ResponseEntity.created(uri).body(createdTag);
+		return ResponseEntity.ok(createdTag);
 	}
 
 	@GetMapping

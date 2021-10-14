@@ -42,10 +42,6 @@ public class UsuarioJuridico extends Usuario {
 	@NotBlank
 	private String razaoSocial;
 
-	@Column(name = "cd_api", nullable = false, unique = true)
-	@NotBlank
-	private String tokenApi;
-	
 	@Column(name = "nr_estabelecimento")
 	@Min(0)
 	private int totalEstabelecimento;
@@ -67,6 +63,7 @@ public class UsuarioJuridico extends Usuario {
 	@OneToMany(mappedBy = "usuarioJuridico", fetch = FetchType.LAZY)
 	private List<Transacao> transacoes;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "usuarioJuridico", fetch = FetchType.LAZY)
 	private List<Dispositivo> dispositivos;
 
@@ -118,11 +115,6 @@ public class UsuarioJuridico extends Usuario {
 				return false;
 		} else if (!razaoSocial.equals(other.razaoSocial))
 			return false;
-		if (tokenApi == null) {
-			if (other.tokenApi != null)
-				return false;
-		} else if (!tokenApi.equals(other.tokenApi))
-			return false;
 		if (totalEstabelecimento != other.totalEstabelecimento)
 			return false;
 		if (transacoes == null) {
@@ -146,11 +138,12 @@ public class UsuarioJuridico extends Usuario {
 		result = prime * result + (entranceID ? 1231 : 1237);
 		result = prime * result + ((nomeFantasia == null) ? 0 : nomeFantasia.hashCode());
 		result = prime * result + ((razaoSocial == null) ? 0 : razaoSocial.hashCode());
-		result = prime * result + ((tokenApi == null) ? 0 : tokenApi.hashCode());
 		result = prime * result + totalEstabelecimento;
 		result = prime * result + ((transacoes == null) ? 0 : transacoes.hashCode());
 		return result;
 	}
+
+	
 	
 	
 }

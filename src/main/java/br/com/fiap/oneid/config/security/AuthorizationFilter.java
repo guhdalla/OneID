@@ -30,7 +30,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String token = extractToken(request);
+		String token = tokenService.extractToken(request);
 		
 		boolean valid = tokenService.isValid(token);
 		
@@ -49,13 +49,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 
-	private String extractToken(HttpServletRequest request) {
-		String header = request.getHeader("Authorization");
-		if (header == null || header.isEmpty() || !header.startsWith("Bearer "))
-			return null;
-		
-		return header.substring(7, header.length());
-		
-	}
+
 
 }

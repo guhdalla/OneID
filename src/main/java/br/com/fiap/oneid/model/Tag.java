@@ -3,6 +3,8 @@ package br.com.fiap.oneid.model;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -34,6 +36,7 @@ public class Tag {
 	@NotNull
 	private int numeroStatus;
 	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;

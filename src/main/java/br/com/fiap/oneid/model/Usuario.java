@@ -26,9 +26,6 @@ import lombok.*;
 @SequenceGenerator(name = "usuario", sequenceName = "SQ_T_GNT_USUARIO", allocationSize = 1)
 public class Usuario implements UserDetails {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -72,10 +69,10 @@ public class Usuario implements UserDetails {
 	@NotBlank
 	private String fotoPerfil;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private List<Tag> tag;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<Role>();
 

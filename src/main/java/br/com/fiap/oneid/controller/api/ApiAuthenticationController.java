@@ -1,5 +1,6 @@
 package br.com.fiap.oneid.controller.api;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +38,12 @@ public class ApiAuthenticationController {
 			return ResponseEntity.ok(token);
 		} catch (AuthenticationException	 e) {
 			return ResponseEntity.badRequest().build();		}
+	}
+	
+	@GetMapping("/info")
+	public ResponseEntity<Object> getUser(HttpServletRequest request) {
+		Object usuario = tokenService.findByToken(tokenService.extractToken(request));
+		if(usuario == null) return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(usuario);
 	}
 }

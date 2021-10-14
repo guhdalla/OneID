@@ -38,6 +38,6 @@ public class Dispositivo {
 	private String codigoPin;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_empresa", nullable = false)
+	@JoinColumn(name = "id_empresa")
 	private UsuarioJuridico usuarioJuridico;
 }
