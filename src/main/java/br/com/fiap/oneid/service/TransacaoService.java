@@ -3,7 +3,6 @@ package br.com.fiap.oneid.service;
 import br.com.fiap.oneid.model.*;
 import br.com.fiap.oneid.model.mqtt.InitializingOnDemandHolder;
 import br.com.fiap.oneid.repository.TransacaoRepository;
-import br.com.fiap.oneid.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,9 +49,14 @@ public class TransacaoService {
     }
 
     public List<Transacao> getAllTransacao(HttpServletRequest request){
-        UsuarioFisico uF = (UsuarioFisico) getUsuarioByToken(request);
-        UsuarioJuridico uJ = (UsuarioJuridico) getUsuarioByToken(request);
-        return transacaoRepository.findByUsuarioJuridicoOrUsuarioFisico(uJ, uF);
+    	Usuario usuario = getUsuarioByToken(request);
+    	if (usuario.getRoles().get(0).getAuthority().equals("ROLE_JURIDICO")) {
+    		UsuarioJuridico usuarioJuridico = (UsuarioJuridico) usuario;
+    		return transacaoRepository.findByUsuarioJuridico(usuarioJuridico);
+		} else {
+			UsuarioFisico usuarioFisico = (UsuarioFisico) usuario;
+			return transacaoRepository.findByUsuarioFisico(usuarioFisico);
+		}
     }
 
 }
