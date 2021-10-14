@@ -1,11 +1,13 @@
 package br.com.fiap.oneid.model.mqtt;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.oneid.model.TransacaoPendente;
 
 public final class InitializingOnDemandHolder{
 
-    Map<String, Integer> valuesCompact = new HashMap<>();
+    List<TransacaoPendente> valuesCompact = new ArrayList<TransacaoPendente>();
 
     /**
      * Private constructor.
@@ -26,11 +28,11 @@ public final class InitializingOnDemandHolder{
      *  @param codigoDispositivo
      * @param value
      */
-    public void setContext(String codigoDispositivo, Integer value){
-        getInstance().valuesCompact.put(codigoDispositivo, value);
+    public void setContext(TransacaoPendente transacaoPendente){
+        this.valuesCompact.add(transacaoPendente);
     }
 
-    public Map<String, Integer> getContext(){
+    public List<TransacaoPendente> getContext(){
         return this.valuesCompact;
     }
 

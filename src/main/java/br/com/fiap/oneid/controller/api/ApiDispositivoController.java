@@ -2,6 +2,7 @@ package br.com.fiap.oneid.controller.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.fiap.oneid.model.Dispositivo;
 import br.com.fiap.oneid.service.DispositivoService;
+import br.com.fiap.oneid.service.TokenService;
 
 @RestController
 @RequestMapping("/api/dispositivo")
 public class ApiDispositivoController {
 
+	final TokenService tokenService;
+	
 	final DispositivoService service;
 
 	@Autowired
-	public ApiDispositivoController(DispositivoService service) {
+	public ApiDispositivoController(DispositivoService service, TokenService tokenService) {
 		this.service = service;
+		this.tokenService = tokenService;
 	}
 
 	@PostMapping
@@ -45,9 +50,8 @@ public class ApiDispositivoController {
 	}
 
 	@PutMapping("/{codigoPin}")
-	public ResponseEntity<Dispositivo> vincularDispositivo(@PathVariable String codigoPin,
-			@RequestBody Dispositivo dispositivo) {
-		Dispositivo dispositivoUpdated = service.vincular(codigoPin, dispositivo);
+	public ResponseEntity<Dispositivo> vincularDispositivo(@PathVariable String codigoPin, HttpServletRequest request) {
+		Dispositivo dispositivoUpdated = service.vincular(codigoPin, tokenService.getIdUsuario(tokenService.extractToken(request)));
 		if (dispositivoUpdated == null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok().body(dispositivoUpdated);

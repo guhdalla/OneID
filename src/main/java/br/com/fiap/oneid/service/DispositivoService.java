@@ -36,17 +36,18 @@ public class DispositivoService {
 		return repository.findByUsuarioJuridico(usuarioJuridico.get());
 	}
 
-	public Dispositivo vincular(String codigoPin, Dispositivo dispositivo) {
+	public Dispositivo vincular(String codigoPin, Long idUsuario) {
 		Optional<Dispositivo> dispositivoOp = repository.findByCodigoPin(codigoPin);
 		if (dispositivoOp.isEmpty())
 			return null;
 		if (dispositivoOp.get().getStatusDispositivo() != 0)
 			return null;
-		Optional<UsuarioJuridico> userOp = serviceJuridico.findById(dispositivo.getUsuarioJuridico().getIdUsuario());
+		Optional<UsuarioJuridico> userOp = serviceJuridico.findById(idUsuario);
 		if (userOp.isEmpty())
 			return null;
 		dispositivoOp.get().setStatusDispositivo(1);
 		dispositivoOp.get().setUsuarioJuridico(userOp.get());
+		System.out.println(dispositivoOp.get());
 		return create(dispositivoOp.get());
 	}
 

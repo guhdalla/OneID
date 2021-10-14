@@ -1,5 +1,10 @@
 package br.com.fiap.oneid.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransacaoPendente {
-    private int value;
+	
+	@NotNull
+	@Min(1)
+    private int valorTransacao;
+	
+	@NotBlank
     private String codigoDispositivo;
 }
