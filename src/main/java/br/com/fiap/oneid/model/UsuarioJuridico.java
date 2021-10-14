@@ -63,7 +63,6 @@ public class UsuarioJuridico extends Usuario {
 	@OneToMany(mappedBy = "usuarioJuridico", fetch = FetchType.LAZY)
 	private List<Transacao> transacoes;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "usuarioJuridico", fetch = FetchType.LAZY)
 	private List<Dispositivo> dispositivos;
 

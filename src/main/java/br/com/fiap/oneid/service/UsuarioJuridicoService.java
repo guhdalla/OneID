@@ -63,6 +63,10 @@ public class UsuarioJuridicoService {
 		repo.delete(usuarioJuridico.get());
 	}
 
+	public List<UsuarioJuridico> getAll(){
+		return repo.findAll();
+	}
+
 	
 	public UsuarioJuridico update(Long id, UsuarioJuridico usuario) {
 		Optional<UsuarioJuridico> userOptional = repo.findById(id);
