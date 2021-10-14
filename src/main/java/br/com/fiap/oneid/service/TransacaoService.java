@@ -20,8 +20,6 @@ public class TransacaoService {
     @Autowired
     private TokenService tokenService;
 
-
-
     public List<Transacao> getAll(){
         return transacaoRepository.findAll();
     }
@@ -49,6 +47,12 @@ public class TransacaoService {
 
     public Usuario getUsuarioByToken(HttpServletRequest request){
         return (Usuario) tokenService.findByToken(tokenService.extractToken(request));
+    }
+
+    public List<Transacao> getAllTransacao(HttpServletRequest request){
+        UsuarioFisico uF = (UsuarioFisico) getUsuarioByToken(request);
+        UsuarioJuridico uJ = (UsuarioJuridico) getUsuarioByToken(request);
+        return transacaoRepository.findByUsuarioJuridicoOrUsuarioFisico(uJ, uF);
     }
 
 }

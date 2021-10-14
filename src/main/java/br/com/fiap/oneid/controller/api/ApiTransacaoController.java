@@ -45,12 +45,15 @@ public class ApiTransacaoController {
         INSTANCE.getContext().remove(tp.get());
         return ResponseEntity.noContent().build();
     }
-    
-    @GetMapping
-    public List<TransacaoPendente> getTransacoesPendentes() {
-    	return INSTANCE.getContext();
+//
+//    @GetMapping
+//    public List<TransacaoPendente> getTransacoesPendentes() {
+//    	return INSTANCE.getContext();
+//    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Transacao>> getAllTransacao(HttpServletRequest request){
+        return ResponseEntity.ok().body(service.getAllTransacao(request));
     }
-
-
 
 }
