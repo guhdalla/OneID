@@ -1,9 +1,7 @@
 package br.com.fiap.oneid.service;
 
-import br.com.fiap.oneid.model.Transacao;
-import br.com.fiap.oneid.model.Usuario;
-import br.com.fiap.oneid.model.UsuarioFisico;
-import br.com.fiap.oneid.model.UsuarioJuridico;
+import br.com.fiap.oneid.model.*;
+import br.com.fiap.oneid.model.mqtt.InitializingOnDemandHolder;
 import br.com.fiap.oneid.repository.TransacaoRepository;
 import br.com.fiap.oneid.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,37 @@ public class TransacaoService {
     private TransacaoRepository transacaoRepository;
 
     @Autowired
-    private UsuarioRepository UsuarioRepository;
+    private TokenService tokenService;
+
 
 
     public List<Transacao> getAll(){
         return transacaoRepository.findAll();
+    }
+
+    public Dispositivo create(TransacaoPendente transacaoPendente, HttpServletRequest request){
+        Usuario usuario = getUsuarioByToken(request);
+        Dispositivo dispositivo = verifyDispositivo(usuario, transacaoPendente.getCodigoDispositivo());
+            if(dispositivo == null) throw new RuntimeException("Dispositivo não encontrado");
+        return dispositivo;
+    }
+
+    public TransacaoPendente delete(HttpServletRequest request, String codigoDispositivo, InitializingOnDemandHolder INSTANCE){
+        Dispositivo dispositivo = verifyDispositivo(getUsuarioByToken(request), codigoDispositivo);
+        if(dispositivo==null) throw new RuntimeException("Dispositivo não encontrado");
+        return INSTANCE.getContext().stream().filter(x->x.getCodigoDispositivo().equals(codigoDispositivo)).findFirst().get();
+    }
+
+    public Dispositivo verifyDispositivo(Usuario usuario, String codigoDispositivo){
+        return ((UsuarioJuridico) usuario)
+                .getDispositivos()
+                .stream()
+                .filter(x->x.getCdDispositivo().equals(codigoDispositivo))
+                .findFirst().orElse(null);
+    }
+
+    public Usuario getUsuarioByToken(HttpServletRequest request){
+        return (Usuario) tokenService.findByToken(tokenService.extractToken(request));
     }
 
 }

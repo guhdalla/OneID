@@ -36,6 +36,10 @@ public final class InitializingOnDemandHolder{
         return this.valuesCompact;
     }
 
+    public boolean verifyContextExist(TransacaoPendente transacaoPendente){
+        return getContext().stream().anyMatch(x -> x.getCodigoDispositivo().equals(transacaoPendente.getCodigoDispositivo()));
+    }
+
 
     /**
      * Provides the lazy-loaded Singleton instance.
