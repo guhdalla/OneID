@@ -46,6 +46,7 @@ public class SecurityConfigurationAPI extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.antMatcher("/api/**")
 			.authorizeRequests()
+				.antMatchers("/img/**").permitAll()
 				.antMatchers(HttpMethod.POST ,"/api/log/**", "/api/usuario/juridico", "/api/usuario/fisico", "/api/role")
 					.permitAll()
 				.anyRequest()
