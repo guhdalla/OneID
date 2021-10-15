@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -48,8 +49,8 @@ public class ApiTagController {
 	}
 
 	@PutMapping("/{codigoPin}")
-	public ResponseEntity<Tag> atualizarTag(@PathVariable String codigoPin, @RequestBody Tag tag) {
-		Tag tagUpdated = service.vincular(codigoPin, tag);
+	public ResponseEntity<Tag> atualizarTag(@PathVariable String codigoPin, HttpServletRequest request) {
+		Tag tagUpdated = service.vincular(codigoPin, request);
 		if(tagUpdated == null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok().body(tagUpdated);

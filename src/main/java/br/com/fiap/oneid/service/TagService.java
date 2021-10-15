@@ -12,6 +12,8 @@ import br.com.fiap.oneid.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,14 @@ public class TagService {
 
 	final TagRepository repository;
 	final UsuarioRepository repositoryUsuario;
+	final TokenService tokenService;
+
 
 	@Autowired
-	public TagService(TagRepository repository, UsuarioRepository repositoryUsuario) {
+	public TagService(TagRepository repository, UsuarioRepository repositoryUsuario, TokenService tokenService) {
 		this.repository = repository;
 		this.repositoryUsuario = repositoryUsuario;
+		this.tokenService = tokenService;
 	}
 
 	public Tag create(Tag tag) {
@@ -68,17 +73,22 @@ public class TagService {
 		return current;
 	}
 
-	public Tag vincular(String codigoPin, Tag tag) {
+	public Tag vincular(String codigoPin, HttpServletRequest request) {
 		Optional<Tag> tagOp = repository.findByCodigoPin(codigoPin);
 		if(tagOp.isEmpty())
 			return null;
 		if(tagOp.get().getNumeroStatus() != 0)
 			return null;
-		Optional<Usuario> userOp = repositoryUsuario.findById(tag.getUsuario().getIdUsuario());
-		if(userOp.isEmpty())
+		Usuario usuario = new Usuario();
+		try {
+			usuario = (Usuario) tokenService.findByToken(tokenService.extractToken(request));
+		} catch (Exception e) {
+			usuario = null;
+		}
+		if(usuario == null)
 			return null;
 		tagOp.get().setNumeroStatus(1);
-		tagOp.get().setUsuario(userOp.get());
+		tagOp.get().setUsuario(usuario);
 		return create(tagOp.get());
 	}
 
