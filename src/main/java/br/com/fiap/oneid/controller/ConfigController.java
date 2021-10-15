@@ -36,6 +36,7 @@ public class ConfigController {
 
 	@GetMapping
 	public ModelAndView index(Authentication auth) {
+
 		ModelAndView modelAndView = new ModelAndView("config");
 		Usuario usuario = (Usuario) auth.getPrincipal();
 		Optional<UsuarioJuridico> usuarioJuridico = serviceJuridico.findById(usuario.getIdUsuario());

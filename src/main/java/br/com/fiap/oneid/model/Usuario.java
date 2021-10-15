@@ -66,8 +66,8 @@ public class Usuario implements UserDetails {
 	private String password;
 	
 	@Column(name = "ft_perfil")
-	@NotBlank
-	private String fotoPerfil;
+	@Lob
+	private byte[] fotoPerfil;
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private List<Tag> tag;
