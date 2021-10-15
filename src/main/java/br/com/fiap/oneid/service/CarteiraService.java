@@ -2,20 +2,27 @@ package br.com.fiap.oneid.service;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.oneid.model.Carteira;
+import br.com.fiap.oneid.model.Usuario;
+import br.com.fiap.oneid.model.UsuarioFisico;
+import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.repository.CarteiraReposiory;
 
 @Service
 public class CarteiraService {
 	
 	final CarteiraReposiory repository;
+	final TokenService tokenService;
 
 	@Autowired
-	public CarteiraService(CarteiraReposiory repository) {
+	public CarteiraService(CarteiraReposiory repository, TokenService tokenService) {
 		this.repository = repository;
+		this.tokenService = tokenService;
 	}
 
 	public Carteira alterarSaldo(Long id, float valor) {
