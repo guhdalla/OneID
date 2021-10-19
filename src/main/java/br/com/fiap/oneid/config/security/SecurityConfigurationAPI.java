@@ -49,6 +49,8 @@ public class SecurityConfigurationAPI extends WebSecurityConfigurerAdapter {
 				.antMatchers("/img/**").permitAll()
 				.antMatchers(HttpMethod.POST ,"/api/log/**", "/api/usuario/juridico", "/api/usuario/fisico", "/api/role")
 					.permitAll()
+				.antMatchers("/api/img/**")
+					.permitAll()
 				.anyRequest()
 					.authenticated()
 				.and()

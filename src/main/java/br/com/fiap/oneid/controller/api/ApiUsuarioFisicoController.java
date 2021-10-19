@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.fiap.oneid.model.UsuarioFisico;
+import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.service.UsuarioFisicoService;
 
 import static br.com.fiap.oneid.util.ImageTransform.*;
@@ -39,31 +40,40 @@ public class ApiUsuarioFisicoController {
 		this.service = service;
 	}
 
-	@SneakyThrows
 	@PostMapping
 	public ResponseEntity<UsuarioFisico> cadastrarUsuarioFisico(@RequestBody @Valid UsuarioFisico usuarioFisico,
 			UriComponentsBuilder uriBuilder) {
-		usuarioFisico.setFotoPerfil(returnBytesDefault());
+		
 		UsuarioFisico createdUsuarioFisico = service.create(usuarioFisico);
 		if(createdUsuarioFisico == null) return ResponseEntity.badRequest().build();
 		URI uri = uriBuilder.path("/api/usuario/fisico{id}").buildAndExpand(createdUsuarioFisico.getIdUsuario())
 				.toUri();
 		return ResponseEntity.created(uri).body(createdUsuarioFisico);
 	}
+	
+	@PutMapping("/img/{id}")
+	public ResponseEntity<String> atualizarFotoPerfil(@PathVariable Long id, @RequestParam MultipartFile photo, UriComponentsBuilder uriBuilder) throws IOException {
+	
+		UsuarioFisico usuarioFisico = service.findById(id).get();
+		byte[] imageByteDefault = returnBytesDefault();
+		usuarioFisico.setFotoPerfil(Objects.requireNonNull(photo.getOriginalFilename()).isEmpty() ? imageByteDefault : photo.getBytes());
+		
+		usuarioFisico = service.save(usuarioFisico);
+		
+		verifyIfExistsImgs();
+		createMapAndImgPushView(mapeamento, List.of(usuarioFisico));
+		
+		URI uri = uriBuilder.path("/api/img/{linkImage}.jpg").buildAndExpand(usuarioFisico.getIdUsuario()).toUri();
+		
+		return ResponseEntity.ok(uri.toString());
+	}
 
 	@PutMapping("{id}")
 	public ResponseEntity<UsuarioFisico> atualizarUsuarioFisico(@PathVariable Long id,
-			@RequestBody @Valid UsuarioFisico usuarioFisico, @RequestParam("photo") MultipartFile photo) throws IOException {
-
-		verifyIfExistsImgs();
-		createMapAndImgPushView(mapeamento, repository.findAll());
-
-		byte[] imageByteDefault = returnBytesDefault();
-		usuarioFisico.setFotoPerfil(Objects.requireNonNull(photo.getOriginalFilename()).isEmpty() ? imageByteDefault : photo.getBytes());
-		UsuarioFisico usuarioFisicoUpdated = service.update(id, usuarioFisico);
-		if (usuarioFisicoUpdated == null)
-			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok().body(usuarioFisicoUpdated);
+			@RequestBody @Valid UsuarioFisico usuarioFisico) throws IOException {
+		UsuarioFisico userAtualizado = service.update(id, usuarioFisico);
+		if(userAtualizado == null) return ResponseEntity.badRequest().build();
+		return ResponseEntity.ok().body(userAtualizado);
 	}
 
 	@GetMapping

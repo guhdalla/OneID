@@ -36,6 +36,7 @@ public class UsuarioFisicoService {
 			Optional<Role> role = repositoryRole.findByName("ROLE_FISICO");
 			if(role.isEmpty()) return null;
 			usuarioFisico.addRole(role.get());
+//			usuarioFisico.setRole(role.get());
 			Carteira carteira = repositoryCarteira.save(new Carteira(0));
 			usuarioFisico.setCarteira(carteira);
 			usuarioFisico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioFisico.getPassword()));
@@ -43,6 +44,10 @@ public class UsuarioFisicoService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public UsuarioFisico save(UsuarioFisico usuarioFisico) {
+			return repository.save(usuarioFisico);
 	}
 
 	public Optional<UsuarioFisico> findById(Long id) {

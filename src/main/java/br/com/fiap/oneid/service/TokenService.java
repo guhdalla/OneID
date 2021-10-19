@@ -77,7 +77,7 @@ public class TokenService {
 		Long id = getIdUsuario(token);
 		Usuario usuario = serviceUsuario.findById(id);
 		if(usuario == null) return null;
-		
+
 		switch (usuario.getRoles().get(0).getAuthority()) {
 		case "ROLE_FISICO":
 			

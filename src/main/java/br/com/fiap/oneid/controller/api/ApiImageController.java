@@ -1,21 +1,24 @@
 package br.com.fiap.oneid.controller.api;
 
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import br.com.fiap.oneid.model.Usuario;
 import javax.activation.FileTypeMap;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/img ")
+@RequestMapping("/api/img")
 public class ApiImageController {
+	
+	Map<String, Usuario> mapeamento = new HashMap<>();
 
     static final String PATH_LOCAL_IMG = "src/main/resources/static/img/usuarios/";
 

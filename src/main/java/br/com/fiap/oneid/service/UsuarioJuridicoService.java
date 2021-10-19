@@ -50,6 +50,10 @@ public class UsuarioJuridicoService {
 		}
 	}
 	
+	public UsuarioJuridico save(UsuarioJuridico usuarioJuridico) {
+			return repo.save(usuarioJuridico);
+	}
+	
 	public Optional<UsuarioJuridico> findById(Long id){
 		return repo.findById(id);
 	}
@@ -72,12 +76,11 @@ public class UsuarioJuridicoService {
 		Optional<UsuarioJuridico> userOptional = repo.findById(id);
 		UsuarioJuridico u = userOptional.get();
 		u.setEmail(usuario.getEmail());
-		u.setFotoPerfil(usuario.getFotoPerfil());
-		u.setPassword(usuario.getPassword());
+		u.setPassword(AuthenticationService.getPasswordEncoder().encode(usuario.getPassword()));
 		u.setEndereco(usuario.getEndereco());
 		u.setTelefone(usuario.getTelefone());
 		u.setTotalEstabelecimento(usuario.getTotalEstabelecimento());
-		return repo.save(u);	
+		return repo.save(u);
 	}
 	
 	public List<Atividade> getAtividades(Usuario usuario) {

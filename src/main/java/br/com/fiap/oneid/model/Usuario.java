@@ -55,8 +55,8 @@ public class Usuario implements UserDetails {
 	@Size(max = 50)
 	private String email;
 
-	@Column(name = "ds_telefone", length = 11, nullable = false, unique = true)
-	@Size(max = 11, min = 11)
+	@Column(name = "ds_telefone", length = 14, nullable = false, unique = true)
+	@Size(max = 14, min = 11)
 	@NotBlank
 	private String telefone;
 

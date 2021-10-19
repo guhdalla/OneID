@@ -1,5 +1,6 @@
 package br.com.fiap.oneid.controller.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -12,12 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.google.gson.Gson;
+
 import br.com.fiap.oneid.model.UsuarioJuridico;
+import br.com.fiap.oneid.service.AuthenticationService;
 import br.com.fiap.oneid.service.UsuarioJuridicoService;
 
 import static br.com.fiap.oneid.util.ImageTransform.*;
@@ -28,48 +33,53 @@ public class ApiUsuarioJuridicoController {
 
 	private UsuarioJuridicoService service;
 
-	private UsuarioRepository repository;
+	private UsuarioRepository repositoryUsuario;
 
 	Map<String, Usuario> mapeamento = new HashMap<>();
-
+	
 	@Autowired
-	public ApiUsuarioJuridicoController(UsuarioJuridicoService service, UsuarioRepository repository) {
-		this.repository= repository;
+	public ApiUsuarioJuridicoController(UsuarioJuridicoService service, UsuarioRepository repositoryUsuario) {
+		this.repositoryUsuario= repositoryUsuario;
 		this.service = service;
 	}
 
 	@PostMapping
 	public ResponseEntity<UsuarioJuridico> cadastrarUsuario(@RequestBody @Valid UsuarioJuridico usuarioJuridico,
 			UriComponentsBuilder uriBuilder) throws IOException {
-		usuarioJuridico.setFotoPerfil(returnBytesDefault());
+		
 		UsuarioJuridico usuarioJuridicoSaved = service.create(usuarioJuridico);
 		if(usuarioJuridicoSaved == null) return ResponseEntity.badRequest().build();
 		URI uri = uriBuilder.path("/api/usuario/juridico/{id}").buildAndExpand(usuarioJuridicoSaved.getIdUsuario()).toUri();
 		return ResponseEntity.created(uri).body(usuarioJuridicoSaved);
 	}
+	
+	@PutMapping("/img/{id}")
+	public ResponseEntity<String> atualizarFotoPerfil(@PathVariable Long id, @RequestParam MultipartFile photo, UriComponentsBuilder uriBuilder) throws IOException {
+	
+		UsuarioJuridico usuarioJuridico = service.findById(id).get();
+		byte[] imageByteDefault = returnBytesDefault();
+		usuarioJuridico.setFotoPerfil(Objects.requireNonNull(photo.getOriginalFilename()).isEmpty() ? imageByteDefault : photo.getBytes());
+		
+		usuarioJuridico = service.save(usuarioJuridico);
+		
+		verifyIfExistsImgs();
+		createMapAndImgPushView(mapeamento, List.of(usuarioJuridico));
+		
+		URI uri = uriBuilder.path("/api/img/{linkImage}.jpg").buildAndExpand(usuarioJuridico.getIdUsuario()).toUri();
+
+		return ResponseEntity.ok(uri.toString());
+	}
+	
 
 	@PutMapping("{id}")
 	public ResponseEntity<UsuarioJuridico> atualizarDados(@PathVariable Long id,
-			@RequestBody @Valid UsuarioJuridico usuarioJuridico, @RequestParam("photo") MultipartFile photo) throws IOException {
+			@RequestBody @Valid UsuarioJuridico usuarioJuridico) throws IOException {
 
-		List<Usuario> usuarios = repository.findAll();
-
-		verifyIfExistsImgs();
-		createMapAndImgPushView(mapeamento, usuarios);
-
-		byte[] imageByteDefault = returnBytesDefault();
-		usuarioJuridico.setFotoPerfil(Objects.requireNonNull(photo.getOriginalFilename()).isEmpty() ? imageByteDefault : photo.getBytes());
-
-		return service.findById(id).map(x -> {
-			x.setEmail(usuarioJuridico.getEmail());
-			x.setFotoPerfil(usuarioJuridico.getFotoPerfil());
-			x.setPassword(usuarioJuridico.getPassword());
-			x.setEndereco(usuarioJuridico.getEndereco());
-			x.setTelefone(usuarioJuridico.getTelefone());
-			UsuarioJuridico userAtualizado = service.update(x.getIdUsuario(), usuarioJuridico);
+			UsuarioJuridico userAtualizado = service.update(id, usuarioJuridico);
+			if(userAtualizado == null) return ResponseEntity.badRequest().build();
 			return ResponseEntity.ok().body(userAtualizado);
-		}).orElse(ResponseEntity.notFound().build());
 	}
+
 
 	@DeleteMapping("{id}")
 	public ResponseEntity<UsuarioJuridico> apagarConta(@PathVariable Long id) {
