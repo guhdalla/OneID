@@ -8,5 +8,4 @@ import br.com.fiap.oneid.model.UsuarioFisico;
 @Repository
 public interface UsuarioFisicoRepository extends JpaRepository<UsuarioFisico, Long> {
 	
-
 }

@@ -3,6 +3,11 @@ package br.com.fiap.oneid.model;
 import java.util.Date;
 
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.*;
 
 @Entity
@@ -16,6 +21,7 @@ public class Atividade {
 	@GeneratedValue(generator = "atividade", strategy = GenerationType.SEQUENCE)
 	private Long idAtividade;
 
+	@DateTimeFormat
 	@Column(name = "dt_check", nullable = false)
 	private Date dtCheck;
 

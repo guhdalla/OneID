@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import br.com.fiap.oneid.model.Usuario;
 import br.com.fiap.oneid.repository.UsuarioRepository;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.fiap.oneid.model.UsuarioFisico;
-import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.service.UsuarioFisicoService;
 
 import static br.com.fiap.oneid.util.ImageTransform.*;

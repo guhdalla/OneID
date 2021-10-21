@@ -70,6 +70,7 @@ public class Usuario implements UserDetails {
 	private byte[] fotoPerfil;
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Tag> tag;
 	
 	@JsonIgnore

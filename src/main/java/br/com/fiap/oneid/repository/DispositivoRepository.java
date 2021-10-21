@@ -15,4 +15,6 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 	List<Dispositivo> findByUsuarioJuridico(UsuarioJuridico usuarioJuridico);
 
 	Optional<Dispositivo> findByCodigoPin(String codigoPin);
+
+	Optional<Dispositivo> findByCdDispositivo(String idDispositivo);
 }

@@ -17,4 +17,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 	Optional<Tag> findByCodigoPin(String codigoPin);
 
 	List<Tag> findByUsuarioAndNumeroStatus(Usuario usuario, int numeroStatus);
+
+	Optional<Tag> findByCodigoTag(String idTag);
 }

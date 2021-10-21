@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.oneid.model.Atividade;
-import br.com.fiap.oneid.model.Transacao;
 import br.com.fiap.oneid.service.AtividadeService;
 
 @RestController
@@ -23,7 +22,7 @@ public class ApiAtividadeController {
 	
 	@GetMapping
     public ResponseEntity<List<Atividade>> getAllAtividades(HttpServletRequest request){
-        return ResponseEntity.ok().body(service.getAllTransacao(request));
+        return ResponseEntity.ok().body(service.getAllAtividade(request));
     }
 	
 }

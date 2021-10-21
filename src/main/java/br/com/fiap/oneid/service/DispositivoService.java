@@ -47,7 +47,6 @@ public class DispositivoService {
 			return null;
 		dispositivoOp.get().setStatusDispositivo(1);
 		dispositivoOp.get().setUsuarioJuridico(userOp.get());
-		System.out.println(dispositivoOp.get());
 		return create(dispositivoOp.get());
 	}
 
