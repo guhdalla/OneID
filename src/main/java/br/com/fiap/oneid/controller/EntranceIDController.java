@@ -22,16 +22,17 @@ import br.com.fiap.oneid.service.UsuarioJuridicoService;
 @RequestMapping("/entranceid")
 public class EntranceIDController {
 	
-	private UsuarioJuridicoService serviceJuridico;
+	final UsuarioJuridicoService serviceJuridico;
 	
-	private EntranceIDService serviceEntranceID;
+	final EntranceIDService serviceEntranceID;
 	
-	private AtividadeService serviceAtividade;
+	final AtividadeService serviceAtividade;
 
 	@Autowired
-	public EntranceIDController(UsuarioJuridicoService serviceJuridico, EntranceIDService serviceEntranceID) {
+	public EntranceIDController(UsuarioJuridicoService serviceJuridico, EntranceIDService serviceEntranceID, AtividadeService serviceAtividade) {
 		this.serviceJuridico = serviceJuridico;
 		this.serviceEntranceID = serviceEntranceID;
+		this.serviceAtividade = serviceAtividade;
 	}
 
 	@GetMapping

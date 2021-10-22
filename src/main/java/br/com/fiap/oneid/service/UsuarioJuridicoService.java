@@ -95,7 +95,7 @@ public class UsuarioJuridicoService {
 		Optional<UsuarioJuridico> usuarioJuridico = findById(usuario.getIdUsuario());
 		if(usuarioJuridico.isEmpty()) return;
 		usuarioJuridico.get().setTotalEstabelecimento(totalEstabelecimento);
-		update(usuario.getIdUsuario(), usuarioJuridico.get());
+		save(usuarioJuridico.get());
 	}
 	
 	public int getTotalEstabelecimento(Usuario usuario) {
