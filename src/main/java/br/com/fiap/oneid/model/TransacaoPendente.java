@@ -16,7 +16,7 @@ public class TransacaoPendente {
 	
 	@NotNull
 	@Min(1)
-    private int valorTransacao;
+    private float valorTransacao;
 	
 	@NotBlank
     private String codigoDispositivo;

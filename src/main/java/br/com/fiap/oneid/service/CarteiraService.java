@@ -24,9 +24,12 @@ public class CarteiraService {
 		Optional<Carteira> carteira = repository.findById(id);
 		if(carteira.isEmpty())
 			return null;
+		System.out.println(valor);
 		if(valor < 0 && carteira.get().getSaldo() > valor * -1) {
-			carteira.get().setSaldo(carteira.get().getSaldo() - valor);
+			System.out.println("Pagando");
+			carteira.get().setSaldo(carteira.get().getSaldo() + valor);
 		} else if(valor >= 0) {
+			System.out.println("Recebendo");
 			carteira.get().setSaldo(carteira.get().getSaldo() + valor);
 		} else {
 			return null;

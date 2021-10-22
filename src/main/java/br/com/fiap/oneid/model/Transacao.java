@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class Transacao {
 
 	@Column(name = "dt_movimentacao", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Calendar dataMovimentacao;
+	private Date dataMovimentacao;
 
 	@Column(name = "vl_transacao", nullable = false)
 	private float valorTransacao;

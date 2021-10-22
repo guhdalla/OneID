@@ -48,6 +48,7 @@ public class AtividadeService {
 			return null;
 		}
 		if (tag.get().getUsuario() == null) return null;
+		if (tag.get().getNumeroStatus() != 1) return null;
 
 		Optional<Dispositivo> dispositivo = repositoryDispositivo.findByCdDispositivo(request.getIdDispositivo());
 		if (dispositivo.isEmpty()) {

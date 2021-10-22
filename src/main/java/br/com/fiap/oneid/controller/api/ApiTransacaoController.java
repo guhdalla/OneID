@@ -19,18 +19,14 @@ public class ApiTransacaoController {
 
     final InitializingOnDemandHolder INSTANCE = InitializingOnDemandHolder.getInstance();
 
-
     @Autowired
     private TransacaoService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid TransacaoPendente transacaoPendente, HttpServletRequest request){
+    public ResponseEntity<TransacaoPendente> create(@RequestBody @Valid TransacaoPendente transacaoPendente, HttpServletRequest request){
         try{
-            Dispositivo dispositivo = service.create(transacaoPendente, request);
-            boolean exist = INSTANCE.verifyContextExist(transacaoPendente);
-            if(exist) throw new RuntimeException("Transacao pendente ja existe");
-            INSTANCE.setContext(transacaoPendente);
-            return ResponseEntity.ok().body(dispositivo);
+            service.create(transacaoPendente, request);
+            return ResponseEntity.ok().body(transacaoPendente);
         }catch(Exception e){
             return ResponseEntity.badRequest().build();
         }
@@ -43,11 +39,11 @@ public class ApiTransacaoController {
         INSTANCE.getContext().remove(tp.get());
         return ResponseEntity.noContent().build();
     }
-//
-//    @GetMapping
-//    public List<TransacaoPendente> getTransacoesPendentes() {
-//    	return INSTANCE.getContext();
-//    }
+
+    @GetMapping("/pendente")
+    public List<TransacaoPendente> getTransacoesPendentes() {
+    	return INSTANCE.getContext();
+    }
 
     @GetMapping
     public ResponseEntity<List<Transacao>> getAllTransacao(HttpServletRequest request){

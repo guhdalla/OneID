@@ -55,4 +55,8 @@ public class DispositivoService {
 		dispositivo.get().setStatusDispositivo(status);;
 		return create(dispositivo.get());
 	}
+	
+	public Optional<Dispositivo> findByCdDispositivo(String cdDispositivo) {
+		return repository.findByCdDispositivo(cdDispositivo);
+	}
 }
