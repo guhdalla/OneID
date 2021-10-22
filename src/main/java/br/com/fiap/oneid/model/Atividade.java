@@ -6,19 +6,21 @@ import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.*;
 
 @Entity
-@Data
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "T_GNT_ATIVIDADE")
 @SequenceGenerator(allocationSize = 1, name = "atividade", sequenceName = "SQ_T_GNT_ATIVIDADE")
 public class Atividade {
 
 	@Id
 	@Column(name = "id_atividade")
-	@GeneratedValue(generator = "atividade", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "atividade", strategy = GenerationType.IDENTITY)
 	private Long idAtividade;
 
 	@DateTimeFormat
@@ -35,6 +37,5 @@ public class Atividade {
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_empresa", nullable = false)
     private UsuarioJuridico usuarioJuridico;
-	
 	
 }

@@ -1,8 +1,5 @@
 package br.com.fiap.oneid.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,70 +20,79 @@ import br.com.fiap.oneid.model.mqtt.MqttRequest;
 import br.com.fiap.oneid.repository.AtividadeRepository;
 import br.com.fiap.oneid.repository.DispositivoRepository;
 import br.com.fiap.oneid.repository.TagRepository;
-import br.com.fiap.oneid.repository.UsuarioFisicoRepository;
-import br.com.fiap.oneid.repository.UsuarioJuridicoRepository;
 
 @Service
 public class AtividadeService {
 
 	@Autowired
 	private AtividadeRepository repository;
-	
-	@Autowired
-	static AtividadeRepository repositoryStatic;
 
 	@Autowired
-	static UsuarioFisicoRepository repositoryUsuarioFisico;
+	private TagRepository repositoryTag;
 
 	@Autowired
-	static UsuarioJuridicoRepository repositoryUsuarioJuridico;
-	
-	@Autowired
-	static TagRepository repositoryTag;
-	
-	@Autowired
-	static DispositivoRepository repositoryDispositivo;
+	private DispositivoRepository repositoryDispositivo;
 
 	@Autowired
 	private TokenService tokenService;
 
-	public static Atividade create(MqttRequest request) {
+	public Atividade create(MqttRequest request) {
+		System.out.println(request);
 		Atividade atividade = new Atividade();
-//		SimpleDateFormat formatador = new SimpleDateFormat("");
-		
-		
+
 		atividade.setDtCheck(new Date());
-		
+
 		Optional<Tag> tag = repositoryTag.findByCodigoTag(request.getIdTag());
-		System.out.println(tag.get());
-		if(tag.isEmpty()) return null;
-		System.out.println(tag.get());
-		
+		if (tag.isEmpty()) {
+			System.out.println("tag is null");
+			return null;
+		}
+		if (tag.get().getUsuario() == null) return null;
+
 		Optional<Dispositivo> dispositivo = repositoryDispositivo.findByCdDispositivo(request.getIdDispositivo());
-		if(dispositivo.isEmpty()) return null;
+		if (dispositivo.isEmpty()) {
+			System.out.println("dispositivo is null");
+			return null;
+		}
+		if (dispositivo.get().getStatusDispositivo() != 1) return null;
+	
 		
-		atividade.setUsuarioFisico((UsuarioFisico) tag.get().getUsuario());
-		atividade.setUsuarioJuridico(dispositivo.get().getUsuarioJuridico());
+		if (tag.isPresent() && dispositivo.isPresent()) {
+			atividade.setUsuarioFisico((UsuarioFisico) tag.get().getUsuario());
+			atividade.setUsuarioJuridico(dispositivo.get().getUsuarioJuridico());
 		
-		int nrCheck = verificaCheck(atividade);
-		atividade.setNrCheck(nrCheck);
-		return repositoryStatic.save(atividade);
+			int nrCheck = verificaCheck(atividade);
+			atividade.setNrCheck(nrCheck);
+			
+			atividade.setIdAtividade(null);
+			
+			return repository.save(atividade);
+		}
+		return null;
 	}
 
-	public static int verificaCheck(Atividade atividade) {
-		List<Atividade> atividades = repositoryStatic.findByUsuarioJuridicoAndUsuarioFisico(
-				atividade.getUsuarioJuridico(), 
-				atividade.getUsuarioFisico(), 
-				Sort.by("idAtividade")
-				);
-		System.out.println("Verifica nrCheck");
-		System.out.println(atividades);
+	public int verificaCheck(Atividade atividade) {
+		List<Atividade> atividades = repository.findByUsuarioJuridicoAndUsuarioFisico(atividade.getUsuarioJuridico(),
+				atividade.getUsuarioFisico(), Sort.by("idAtividade"));
+		
+		if(atividades.isEmpty()) return 1;
+		
+		System.out.println("ULTIMA ATIVIDADE: " + atividades.get(atividades.size() - 1));
+		
+		if (atividades.get(atividades.size() - 1).getNrCheck() == 1 && atividade.getUsuarioJuridico().getIdUsuario() == atividades.get(atividades.size() - 1).getUsuarioJuridico().getIdUsuario()) {
+			return 0;
+		} else if (atividades.get(atividades.size() - 1).getNrCheck() == 1 && atividade.getUsuarioJuridico().getIdUsuario() != atividades.get(atividades.size() - 1).getUsuarioJuridico().getIdUsuario()) {
+			return 1;
+		}
+		if (atividades.get(atividades.size() - 1).getNrCheck() == 0) {
+			return 1;
+		} 
 		return 0;
 	}
-	
-	public Usuario getUsuarioByToken(HttpServletRequest request){
-        return (Usuario) tokenService.findByToken(tokenService.extractToken(request));
-    }
+
+	public Usuario getUsuarioByToken(HttpServletRequest request) {
+		return (Usuario) tokenService.findByToken(tokenService.extractToken(request));
+	}
 
 	public List<Atividade> getAllAtividade(HttpServletRequest request) {
 		Usuario usuario = getUsuarioByToken(request);
@@ -97,6 +103,10 @@ public class AtividadeService {
 			UsuarioFisico usuarioFisico = (UsuarioFisico) usuario;
 			return repository.findByUsuarioFisico(usuarioFisico);
 		}
+	}
+
+	public List<Atividade> findByUsuarioJuridico(UsuarioJuridico usuario) {
+		return repository.findByUsuarioJuridico(usuario);
 	}
 
 }

@@ -24,16 +24,18 @@ public class UsuarioJuridicoService {
 	
 	final UsuarioJuridicoRepository repo;
 	
+	final AtividadeService serviceAtividade;
 	
 	final CarteiraReposiory repositoryCarteira;
 	
 	final RoleRepository repositoryRole;
 	
 	@Autowired
-	public UsuarioJuridicoService(UsuarioJuridicoRepository repository, CarteiraReposiory repositoryCarteira, RoleRepository repositoryRole) {
+	public UsuarioJuridicoService(UsuarioJuridicoRepository repository, CarteiraReposiory repositoryCarteira, RoleRepository repositoryRole,  AtividadeService serviceAtividade) {
 		this.repo = repository;
 		this.repositoryCarteira = repositoryCarteira;
 		this.repositoryRole = repositoryRole;
+		this.serviceAtividade = serviceAtividade;
 	}
 	
 	public UsuarioJuridico create(UsuarioJuridico usuarioJuridico) {
@@ -86,7 +88,7 @@ public class UsuarioJuridicoService {
 	public List<Atividade> getAtividades(Usuario usuario) {
 		Optional<UsuarioJuridico> usuarioJuridico = findById(usuario.getIdUsuario());
 		if(usuarioJuridico.isEmpty()) return null;
-		return usuarioJuridico.get().getAtividades();
+		return serviceAtividade.findByUsuarioJuridico(usuarioJuridico.get());
 	}
 	
 	public void updateTotalEstabeleciemnto(Usuario usuario, int totalEstabelecimento) {

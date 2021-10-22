@@ -9,6 +9,9 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+
+import br.com.fiap.oneid.model.mqtt.MqttResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +23,7 @@ import lombok.NoArgsConstructor;
 public class MqttConnection {
 
 	private String broker = "tcp://broker.hivemq.com:1883";
+	private String pubTopic = "bgmbnewgen8462/oneid/empresa/response";
 	public MqttAsyncClient client;
 	private static MqttConnection instance;
 
@@ -30,14 +34,10 @@ public class MqttConnection {
 		try {
 			client = new MqttAsyncClient(broker, UUID.randomUUID().toString(), persistence);
 
-			OnMessageCallback myCallBack = new OnMessageCallback();
-			client.setCallback(myCallBack);
-			
 			IMqttToken token = client.connect();
 			token.waitForCompletion();
 			
 			System.out.println("Connected MQTT");
-			sub("bgmbnewgen8462/oneid/empresa/request", 2);
 
 		} catch (MqttException me) {
 			System.out.println("reason " + me.getReasonCode());
@@ -53,6 +53,50 @@ public class MqttConnection {
 		try {
 			MqttMessage message = new MqttMessage(content.getBytes());
 			message.setQos(qos);
+			client.publish(pubTopic, message);
+		} catch (MqttException me) {
+			System.out.println("reason " + me.getReasonCode());
+			System.out.println("msg " + me.getMessage());
+			System.out.println("loc " + me.getLocalizedMessage());
+			System.out.println("cause " + me.getCause());
+			System.out.println("excep " + me);
+			me.printStackTrace();
+		}
+	}
+	
+	public void pubFalse(String codDispositivo) {
+		try {
+			MqttResponse response = new MqttResponse();
+			response.setCodDispositivo(codDispositivo);
+			response.setResultado(0);
+			
+			Gson gson = new Gson();
+			String content = gson.toJson( response );
+			
+			MqttMessage message = new MqttMessage(content.getBytes());
+			message.setQos(1);
+			client.publish(pubTopic, message);
+		} catch (MqttException me) {
+			System.out.println("reason " + me.getReasonCode());
+			System.out.println("msg " + me.getMessage());
+			System.out.println("loc " + me.getLocalizedMessage());
+			System.out.println("cause " + me.getCause());
+			System.out.println("excep " + me);
+			me.printStackTrace();
+		}
+	}
+	
+	public void pubTrue(String codDispositivo) {
+		try {
+			MqttResponse response = new MqttResponse();
+			response.setCodDispositivo(codDispositivo);
+			response.setResultado(1);
+			
+			Gson gson = new Gson();
+			String content = gson.toJson( response );
+			
+			MqttMessage message = new MqttMessage(content.getBytes());
+			message.setQos(1);
 			client.publish(pubTopic, message);
 		} catch (MqttException me) {
 			System.out.println("reason " + me.getReasonCode());

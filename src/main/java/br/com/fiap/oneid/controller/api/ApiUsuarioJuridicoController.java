@@ -1,6 +1,5 @@
 package br.com.fiap.oneid.controller.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -13,16 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.gson.Gson;
-
 import br.com.fiap.oneid.model.UsuarioJuridico;
-import br.com.fiap.oneid.service.AuthenticationService;
 import br.com.fiap.oneid.service.UsuarioJuridicoService;
 
 import static br.com.fiap.oneid.util.ImageTransform.*;

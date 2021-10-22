@@ -1,8 +1,6 @@
 package br.com.fiap.oneid.service;
 
 import br.com.fiap.oneid.model.Dispositivo;
-import br.com.fiap.oneid.model.Tag;
-import br.com.fiap.oneid.model.Usuario;
 import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.repository.DispositivoRepository;
 

@@ -20,7 +20,11 @@ import lombok.*;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "T_GNT_USUARIO")
 @SequenceGenerator(name = "usuario", sequenceName = "SQ_T_GNT_USUARIO", allocationSize = 1)
@@ -68,10 +72,6 @@ public class Usuario implements UserDetails {
 	@Column(name = "ft_perfil")
 	@Lob
 	private byte[] fotoPerfil;
-
-	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-	@JsonIgnore
-	private List<Tag> tag;
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)

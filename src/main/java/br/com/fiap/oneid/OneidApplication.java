@@ -14,5 +14,4 @@ public class OneidApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OneidApplication.class, args);
 	}
-
 }

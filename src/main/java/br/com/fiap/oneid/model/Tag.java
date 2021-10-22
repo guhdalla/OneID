@@ -1,7 +1,6 @@
 package br.com.fiap.oneid.model;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,9 +9,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import java.util.Objects;
-
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "T_GNT_TAG")
 @SequenceGenerator(name = "tag", sequenceName = "SQ_T_GNT_TAG", allocationSize = 1)
@@ -37,23 +38,7 @@ public class Tag {
 	private int numeroStatus;
 	
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
-			return false;
-		Tag tag = (Tag) o;
-
-		return Objects.equals(idTag, tag.idTag);
-	}
-
-	@Override
-	public int hashCode() {
-		return 50257180;
-	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.fiap.oneid.model.Atividade;
 import br.com.fiap.oneid.model.Usuario;
 import br.com.fiap.oneid.model.UsuarioJuridico;
+import br.com.fiap.oneid.service.AtividadeService;
 import br.com.fiap.oneid.service.EntranceIDService;
 import br.com.fiap.oneid.service.UsuarioJuridicoService;
 
@@ -24,6 +25,8 @@ public class EntranceIDController {
 	private UsuarioJuridicoService serviceJuridico;
 	
 	private EntranceIDService serviceEntranceID;
+	
+	private AtividadeService serviceAtividade;
 
 	@Autowired
 	public EntranceIDController(UsuarioJuridicoService serviceJuridico, EntranceIDService serviceEntranceID) {
@@ -36,8 +39,9 @@ public class EntranceIDController {
 		ModelAndView modelAndView = new ModelAndView("entranceid");
 		Usuario usuario = (Usuario) auth.getPrincipal();
 		Optional<UsuarioJuridico> usuarioJuridico = serviceJuridico.findById(usuario.getIdUsuario());
+		if(usuarioJuridico.isEmpty()) return modelAndView;
 		
-		List<Atividade> atividades = usuarioJuridico.get().getAtividades();
+		List<Atividade> atividades = serviceAtividade.findByUsuarioJuridico((UsuarioJuridico) usuario);
 		modelAndView.addObject("atividades", atividades);
 		
 		List<Atividade> atividadesTotalEntrada = atividades.stream().filter(x -> x.getNrCheck() == 1).collect(Collectors.toList());

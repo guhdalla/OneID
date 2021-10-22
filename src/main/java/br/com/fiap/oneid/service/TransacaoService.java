@@ -18,6 +18,9 @@ public class TransacaoService {
 
     @Autowired
     private TokenService tokenService;
+    
+    @Autowired
+    private DispositivoService dispositivoService;
 
     public List<Transacao> getAll(){
         return transacaoRepository.findAll();
@@ -35,13 +38,12 @@ public class TransacaoService {
         if(dispositivo==null) throw new RuntimeException("Dispositivo não encontrado");
         return INSTANCE.getContext().stream().filter(x->x.getCodigoDispositivo().equals(codigoDispositivo)).findFirst();
     }
-
+    
     public Dispositivo verifyDispositivo(Usuario usuario, String codigoDispositivo){
-        return ((UsuarioJuridico) usuario)
-                .getDispositivos()
-                .stream()
-                .filter(x->x.getCdDispositivo().equals(codigoDispositivo))
-                .findFirst().orElse(null);
+        return dispositivoService.findByEmpresa(usuario.getIdUsuario())
+        		.stream()
+        		.filter(x->x.getCdDispositivo().equals(codigoDispositivo))
+        		.findFirst().orElse(null);
     }
 
     public Usuario getUsuarioByToken(HttpServletRequest request){

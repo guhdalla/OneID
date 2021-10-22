@@ -6,14 +6,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-@Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Entity
 @Table(name = "T_GNT_DISPOSITIVO")
 @SequenceGenerator(name = "dispositivo", allocationSize = 1, sequenceName = "SQ_T_GNT_DISPOSITIVO")
 public class Dispositivo {
@@ -38,8 +38,8 @@ public class Dispositivo {
 	@Size(min = 10, max = 10)
 	private String codigoPin;
 	
-	@ManyToOne
+	
 	@JoinColumn(name = "id_empresa")
-	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	private UsuarioJuridico usuarioJuridico;
 }

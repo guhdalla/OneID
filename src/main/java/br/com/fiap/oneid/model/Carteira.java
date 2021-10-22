@@ -9,9 +9,11 @@ import javax.validation.constraints.Size;
 import lombok.*;
 
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Table(name = "T_GNT_CARTEIRA")
 @SequenceGenerator(name = "carteira", sequenceName = "SQ_T_GNT_CARTEIRA", allocationSize = 1)
 public class Carteira {

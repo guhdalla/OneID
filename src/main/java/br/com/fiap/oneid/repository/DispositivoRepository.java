@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -16,5 +18,6 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 
 	Optional<Dispositivo> findByCodigoPin(String codigoPin);
 
-	Optional<Dispositivo> findByCdDispositivo(String idDispositivo);
+	@Query("select u from Dispositivo u where u.cdDispositivo = :cdDispositivo")
+	Optional<Dispositivo> findByCdDispositivo(@Param("cdDispositivo") String cdDispositivo);
 }

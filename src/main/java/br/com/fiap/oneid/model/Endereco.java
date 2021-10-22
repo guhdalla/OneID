@@ -12,6 +12,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "T_GNT_ENDERECO")
 @SequenceGenerator(name="endereco", sequenceName = "SQ_T_GNT_ENDERECO", allocationSize = 1)
 public class Endereco {
