@@ -6,7 +6,7 @@ Projeto Challenger Plusoft by: NewGen
 3 - Depois de validado subir na master </br>
 
 Pipeline
-
+```
 pipeline {
     agent any
 
@@ -29,3 +29,4 @@ pipeline {
         }
     }
 }
+```
