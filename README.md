@@ -23,7 +23,7 @@ pipeline {
 
             post {
                 success {
-                    deploy adapters: [tomcat9(credentialsId: '6303c914-1968-40f5-813e-c7090f725fb5', path: '', url: 'http://localhost:8080/')], contextPath: 'OneID', war: '*/.war'
+                    deploy adapters: [tomcat9(credentialsId: '6303c914-1968-40f5-813e-c7090f725fb5', path: '', url: 'http://localhost:8080/')], contextPath: 'OneID', war: '**/*.war'
                 }
             }
         }
