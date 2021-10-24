@@ -25,11 +25,9 @@ public class MqttService {
 		MqttRequest request = jsonToRequest(msg.toString());
 		switch (request.getServico()) {
 		case "1":
-			System.out.println("Atividade");
 			startAtividade(request);
 			break;
 		case "2":
-			System.out.println("Transacao");
 			startTransacao(request);
 			break;
 		default:
@@ -48,11 +46,9 @@ public class MqttService {
 		
 		MqttConnection client = MqttConnection.getInstance();
 		if (transacao == null) {
-			System.out.println("Transacao nao criada");
 			client.pubFalse(request.getIdDispositivo());
 			return;
 		}
-		System.out.println(transacao);
 		client.pubTrue(request.getIdDispositivo());
 	}
 	
@@ -61,11 +57,9 @@ public class MqttService {
 		
 		MqttConnection client = MqttConnection.getInstance();
 		if (atividade == null) {
-			System.out.println("Atividade nao criada");
 			client.pubFalse(request.getIdDispositivo());
 			return;
 		}
-		System.out.println(atividade);
 		client.pubTrue(request.getIdDispositivo());
 	}
 }

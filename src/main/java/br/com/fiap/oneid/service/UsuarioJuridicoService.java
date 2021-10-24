@@ -16,6 +16,7 @@ import br.com.fiap.oneid.model.Role;
 import br.com.fiap.oneid.model.Usuario;
 import br.com.fiap.oneid.model.UsuarioJuridico;
 import br.com.fiap.oneid.repository.CarteiraReposiory;
+import br.com.fiap.oneid.repository.EnderecoRepository;
 import br.com.fiap.oneid.repository.RoleRepository;
 
 @Service
@@ -30,12 +31,15 @@ public class UsuarioJuridicoService {
 	
 	final RoleRepository repositoryRole;
 	
+	final EnderecoRepository repositoryEndereco;
+	
 	@Autowired
-	public UsuarioJuridicoService(UsuarioJuridicoRepository repository, CarteiraReposiory repositoryCarteira, RoleRepository repositoryRole,  AtividadeService serviceAtividade) {
+	public UsuarioJuridicoService(UsuarioJuridicoRepository repository, CarteiraReposiory repositoryCarteira, RoleRepository repositoryRole,  AtividadeService serviceAtividade, EnderecoRepository repositoryEndereco) {
 		this.repo = repository;
 		this.repositoryCarteira = repositoryCarteira;
 		this.repositoryRole = repositoryRole;
 		this.serviceAtividade = serviceAtividade;
+		this.repositoryEndereco = repositoryEndereco;
 	}
 	
 	public UsuarioJuridico create(UsuarioJuridico usuarioJuridico) {
@@ -46,8 +50,10 @@ public class UsuarioJuridicoService {
 			Carteira carteira = repositoryCarteira.save(new Carteira(0));
 			usuarioJuridico.setCarteira(carteira);
 			usuarioJuridico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioJuridico.getPassword()));
+//			usuarioJuridico.setEndereco(repositoryEndereco.save(usuarioJuridico.getEndereco()));
 			return repo.save(usuarioJuridico);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

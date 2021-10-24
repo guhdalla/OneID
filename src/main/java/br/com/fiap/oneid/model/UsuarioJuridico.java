@@ -49,7 +49,7 @@ public class UsuarioJuridico extends Usuario {
 	@JoinColumn(name = "id_carteira", nullable = false)
 	private Carteira carteira;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 

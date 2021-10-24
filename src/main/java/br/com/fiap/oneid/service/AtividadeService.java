@@ -37,25 +37,21 @@ public class AtividadeService {
 	private TokenService tokenService;
 
 	public Atividade create(MqttRequest request) {
-		System.out.println(request);
 		Atividade atividade = new Atividade();
 
 		atividade.setDtCheck(new Date());
 
 		Optional<Tag> tag = repositoryTag.findByCodigoTag(request.getIdTag());
 		if (tag.isEmpty()) {
-			System.out.println("tag is null");
 			return null;
 		}
-		if (tag.get().getUsuario() == null) return null;
-		if (tag.get().getNumeroStatus() != 1) return null;
+		if (tag.get().getUsuario() == null || tag.get().getNumeroStatus() != 1) return null;
 
 		Optional<Dispositivo> dispositivo = repositoryDispositivo.findByCdDispositivo(request.getIdDispositivo());
 		if (dispositivo.isEmpty()) {
-			System.out.println("dispositivo is null");
 			return null;
 		}
-		if (dispositivo.get().getStatusDispositivo() != 1) return null;
+		if (dispositivo.get().getStatusDispositivo() != 1 || dispositivo.get().getUsuarioJuridico() == null) return null;
 	
 		
 		if (tag.isPresent() && dispositivo.isPresent()) {
@@ -77,8 +73,6 @@ public class AtividadeService {
 				atividade.getUsuarioFisico(), Sort.by("idAtividade"));
 		
 		if(atividades.isEmpty()) return 1;
-		
-		System.out.println("ULTIMA ATIVIDADE: " + atividades.get(atividades.size() - 1));
 		
 		if (atividades.get(atividades.size() - 1).getNrCheck() == 1 && atividade.getUsuarioJuridico().getIdUsuario() == atividades.get(atividades.size() - 1).getUsuarioJuridico().getIdUsuario()) {
 			return 0;

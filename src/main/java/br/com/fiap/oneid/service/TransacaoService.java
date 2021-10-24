@@ -86,42 +86,28 @@ public class TransacaoService {
 	}
 
 	public Transacao finalizar(MqttRequest request) {
-		System.out.println(request);
 		Optional<Dispositivo> dispositivo = dispositivoService.findByCdDispositivo(request.getIdDispositivo());
 		if (dispositivo.isEmpty())
 			return null;
-		if (dispositivo.get().getUsuarioJuridico() == null)
+		if (dispositivo.get().getUsuarioJuridico() == null || dispositivo.get().getStatusDispositivo() != 1)
 			return null;
-		if (dispositivo.get().getStatusDispositivo() != 1)
-			return null;
-		System.out.println(dispositivo.get());
 
 		Optional<TransacaoPendente> transacaoPendente = INSTANCE.getContextDetail(dispositivo.get().getCdDispositivo());
 		if (transacaoPendente.isEmpty())
 			return null;
-		System.out.println(transacaoPendente);
 
 		Optional<Tag> tag = repositoryTag.findByCodigoTag(request.getIdTag());
 		if (tag.isEmpty()) {
-			System.out.println("tag is null");
 			return null;
 		}
-		if (tag.get().getUsuario() == null)
+		if (tag.get().getUsuario() == null || tag.get().getNumeroStatus() != 1)
 			return null;
-		if (tag.get().getNumeroStatus() != 1)
-			return null;
-		
-		System.out.println(tag.get());
 		
 		Optional<UsuarioFisico> usuarioFisico = repositoryUsuarioFisico.findById(tag.get().getUsuario().getIdUsuario());
 		if(usuarioFisico.isEmpty())
 			return null;
 		
-		System.out.println(usuarioFisico.get());
-		
 		boolean transferir = transferirValor(usuarioFisico.get(), dispositivo.get().getUsuarioJuridico(), transacaoPendente.get().getValorTransacao());
-		
-		System.out.println(transferir);
 
 		if (dispositivo.isPresent() && tag.isPresent() && transacaoPendente.isPresent() && transferir) {
 			
@@ -142,9 +128,7 @@ public class TransacaoService {
 		if (usuarioFisico.getCarteira().getSaldo() < valor) 
 			return false;
 		try {
-			System.out.println("Antes" + usuarioFisico.getCarteira());
-			Carteira carteira = serviceCarteira.alterarSaldo(usuarioFisico.getCarteira().getId(), valor * -1);
-			System.out.println("Depois" + carteira);
+			serviceCarteira.alterarSaldo(usuarioFisico.getCarteira().getId(), valor * -1);
 			serviceCarteira.alterarSaldo(usuarioJuridico.getCarteira().getId(), valor);
 		} catch (Exception e) {
 			return false;

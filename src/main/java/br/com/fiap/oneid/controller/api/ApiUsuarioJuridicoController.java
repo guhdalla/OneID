@@ -7,7 +7,6 @@ import java.util.*;
 import javax.validation.Valid;
 
 import br.com.fiap.oneid.model.Usuario;
-import br.com.fiap.oneid.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,14 +26,11 @@ import static br.com.fiap.oneid.util.ImageTransform.*;
 public class ApiUsuarioJuridicoController {
 
 	private UsuarioJuridicoService service;
-
-	private UsuarioRepository repositoryUsuario;
-
+	
 	Map<String, Usuario> mapeamento = new HashMap<>();
 	
 	@Autowired
-	public ApiUsuarioJuridicoController(UsuarioJuridicoService service, UsuarioRepository repositoryUsuario) {
-		this.repositoryUsuario= repositoryUsuario;
+	public ApiUsuarioJuridicoController(UsuarioJuridicoService service) {
 		this.service = service;
 	}
 
