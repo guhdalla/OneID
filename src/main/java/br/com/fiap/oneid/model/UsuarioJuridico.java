@@ -31,8 +31,8 @@ public class UsuarioJuridico extends Usuario {
 	@Column(name = "bool_entracedID", nullable = false)
 	private boolean entranceID;
 
-	@Column(name = "ds_cnpj", length = 14, nullable = false, unique = true)
-	@Size(min = 14, max = 14)
+	@Column(name = "ds_cnpj", length = 20, nullable = false, unique = true)
+	@Size(min = 14, max = 20)
 	@NotBlank
 	private String cnpj;
 

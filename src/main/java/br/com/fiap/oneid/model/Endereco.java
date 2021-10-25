@@ -27,9 +27,9 @@ public class Endereco {
 	@Size(max = 50)
 	private String rua;
 	
-	@Column(name="ds_cep", length = 8, nullable = false)
+	@Column(name="ds_cep", length = 10, nullable = false)
 	@NotBlank
-	@Size(max = 8, min = 8)
+	@Size(max = 10, min = 8)
 	private String cep;
 	
 	@Column(name="ds_bairro", length = 20, nullable = false)

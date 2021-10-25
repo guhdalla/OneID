@@ -51,6 +51,7 @@ public class UsuarioJuridicoService {
 			usuarioJuridico.setCarteira(carteira);
 			usuarioJuridico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioJuridico.getPassword()));
 //			usuarioJuridico.setEndereco(repositoryEndereco.save(usuarioJuridico.getEndereco()));
+			System.out.println(usuarioJuridico);
 			return repo.save(usuarioJuridico);
 		} catch (Exception e) {
 			e.printStackTrace();

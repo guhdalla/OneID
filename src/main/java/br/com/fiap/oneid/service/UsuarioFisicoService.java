@@ -36,7 +36,6 @@ public class UsuarioFisicoService {
 			Optional<Role> role = repositoryRole.findByName("ROLE_FISICO");
 			if(role.isEmpty()) return null;
 			usuarioFisico.addRole(role.get());
-//			usuarioFisico.setRole(role.get());
 			Carteira carteira = repositoryCarteira.save(new Carteira(0));
 			usuarioFisico.setCarteira(carteira);
 			usuarioFisico.setPassword(AuthenticationService.getPasswordEncoder().encode(usuarioFisico.getPassword()));
